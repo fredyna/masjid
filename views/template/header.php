@@ -12,22 +12,22 @@
   <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
 
   <!-- Core stylesheets -->
-  <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="assets/css/pixeladmin.min.css" rel="stylesheet" type="text/css">
-  <link href="assets/css/widgets.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/css/pixeladmin.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/css/widgets.min.css" rel="stylesheet" type="text/css">
 
   <!-- font awesome -->
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
   <!-- Theme -->
-  <link href="assets/css/themes/candy-green.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/css/themes/candy-green.min.css" rel="stylesheet" type="text/css">
 
   <!-- Pace.js -->
-  <script src="assets/pace/pace.min.js"></script>
+  <script src="../../assets/pace/pace.min.js"></script>
   <!-- Load jQuery -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <!-- Core scripts -->
-  <script src="assets/js/bootstrap.min.js"></script>
-  <script src="assets/js/pixeladmin.min.js"></script>
+  <script src="../../assets/js/bootstrap.min.js"></script>
+  <script src="../../assets/js/pixeladmin.min.js"></script>
 </head>
 <body>

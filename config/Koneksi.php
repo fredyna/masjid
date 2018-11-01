@@ -1,12 +1,12 @@
 <?php
 class Koneksi {
-    private $server     = 'localhost';
-    private $username   = 'root';
-    private $password   = '';
-    private $db         = 'db_masjid';
+    protected $server     = 'localhost';
+    protected $username   = 'root';
+    protected $password   = '';
+    protected $db         = 'db_masjid';
 
-    public function getKoneksi(){
-        return new mysqli($this->server, $this->username, $this->password, $this->db);
-    }
+    // public function getKoneksi(){
+    //     return new mysqli($this->server, $this->username, $this->password, $this->db);
+    // }
 }
 ?>

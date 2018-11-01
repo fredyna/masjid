@@ -8,7 +8,7 @@
 
     <ul class="px-nav-content">
       <li class="px-nav-box p-a-3 b-b-1" id="demo-px-nav-box">
-        <img src="assets/demo/avatars/1.jpg" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px;">
+        <img src="../../assets/demo/avatars/1.jpg" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px;">
         <div class="font-size-16"><span class="font-weight-light">Welcome, </span><strong>Admin</strong></div>
       </li>
 
@@ -59,7 +59,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <img src="assets/demo/avatars/1.jpg" alt="" class="px-navbar-image">
+            <img src="../../assets/demo/avatars/1.jpg" alt="" class="px-navbar-image">
             <span class="hidden-md">Admin</span>
           </a>
           <ul class="dropdown-menu">

@@ -1,6 +1,6 @@
 <?php
-    require_once('template/header.php');
-    require_once('template/navbar.php');
+    require_once('../template/header.php');
+    require_once('../template/navbar.php');
 ?>
 
 <!-- Content -->
@@ -58,5 +58,5 @@
 </script>
 
 <?php
-    require_once('template/footer.php');
+    require_once('../template/footer.php');
 ?>
