@@ -1,3 +1,6 @@
+<?php 
+  session_start();
+?>
 <!DOCTYPE html>
 
 <html>
@@ -92,7 +95,21 @@
   <!-- / Custom styling -->
 </head>
 <body>
+
   <div class="page-signin-modal modal">
+
+    <?php if(isset($_SESSION['form']) && $_SESSION['form'] == 1){ ?>
+        <div class="col-sm-12">
+            <div class="alert alert-warning">
+                Username atau password salah!
+            </div>
+        </div>
+        <br><br>
+    <?php 
+            unset($_SESSION['form']);
+        }
+    ?>
+
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="box m-a-0">

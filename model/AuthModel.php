@@ -1,6 +1,6 @@
 <?php 
-
-    require_once('../config/Koneksi.php');
+    $path = dirname(__DIR__);
+    require_once($path.'/config/Koneksi.php');
 
     class AuthModel extends Koneksi{
         private $table = 'users';

@@ -8,18 +8,20 @@
 
     <ul class="px-nav-content">
       <li class="px-nav-box p-a-3 b-b-1" id="demo-px-nav-box">
-        <img src="../../assets/demo/avatars/1.jpg" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px;">
-        <div class="font-size-16"><span class="font-weight-light">Welcome, </span><strong>Admin</strong></div>
+        <img src="../../assets/img/avatars/user.jpg" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px;">
+        <div class="font-size-16"><span class="font-weight-light">Welcome, </span><strong><?php echo $user_login['username'];?></strong></div>
       </li>
 
       <li class="px-nav-item" id="menu-beranda">
-        <a href="javascript:void(0)"><i class="px-nav-icon ion-home"></i><span class="px-nav-label"> BERANDA</span></a>
+        <a href="index.php"><i class="px-nav-icon ion-home"></i><span class="px-nav-label"> BERANDA</span></a>
       </li>
-      <li class="px-nav-item" id="menu-user">
-          <a href="javascript:void(0)"><i class="px-nav-icon ion-person"></i><span class="px-nav-label">KELOLA USER</span></a>
+      <?php if($user_login['role'] == 1){ ?>
+        <li class="px-nav-item" id="menu-user">
+          <a href="user.php"><i class="px-nav-icon ion-person"></i><span class="px-nav-label">KELOLA USER</span></a>
         </li>
+      <?php } ?>
       <li class="px-nav-item" id="menu-kategori">
-        <a href="javascript:void(0)"><i class="px-nav-icon ion-social-buffer"></i><span class="px-nav-label">KELOLA KATEGORI</span></a>
+        <a href="kategori.php"><i class="px-nav-icon ion-social-buffer"></i><span class="px-nav-label">KELOLA KATEGORI</span></a>
       </li>
       <li class="px-nav-item" id="menu-artikel">
         <a href="javascript:void(0)"><i class="px-nav-icon ion-ios-paper"></i><span class="px-nav-label">KELOLA ARTIKEL</span></a>
@@ -37,8 +39,10 @@
         <a href="javascript:void(0)"><i class="px-nav-icon ion-gear-b"></i><span class="px-nav-label"> SETTING</a>
 
         <ul class="px-nav-dropdown-menu">
-          <li class="px-nav-item" id="sub-profil-masjid"><a href="javascript:void(0)"><span class="px-nav-label">PROFIL MASJID</span></a></li>
-          <li class="px-nav-item" id="sub-profil-user"><a href="javascript:void(0)"><span class="px-nav-label">PROFIL USER</span></a></li>
+        <?php if($user_login['role'] == 1){ ?>
+          <li class="px-nav-item" id="sub-profil-masjid"><a href="profil_masjid.php"><span class="px-nav-label">PROFIL MASJID</span></a></li>
+        <?php } ?>
+          <li class="px-nav-item" id="sub-profil-user"><a href="profil_user.php"><span class="px-nav-label">PROFIL USER</span></a></li>
         </ul>
       </li>
     </ul>
@@ -59,13 +63,13 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <img src="../../assets/demo/avatars/1.jpg" alt="" class="px-navbar-image">
-            <span class="hidden-md">Admin</span>
+            <img src="../../assets/img/avatars/user.jpg" alt="" class="px-navbar-image">
+            <span class="hidden-md"><?php echo $user_login['username'];?></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="pages-profile-v2.html"><span class="label label-warning pull-xs-right"><i class="fa fa-asterisk"></i></span>Profile</a></li>
+            <li><a href="profil_user.php"><span class="label label-warning pull-xs-right"><i class="fa fa-asterisk"></i></span>Profil</a></li>
             <li class="divider"></li>
-            <li><a href="pages-signin-v1.html"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+            <li><a href="../logout.php"><i class="dropdown-icon fa fa-sign-out"></i>&nbsp;&nbsp;Keluar</a></li>
           </ul>
         </li>
       </ul>

@@ -1,5 +1,13 @@
 <?php
-    session_start();
+    session_start();  
+    if(!isset($_SESSION['user_login'])){
+      header('Location: ../login.php' );
+      die();
+    } else{
+      require_once('../../controller/AuthController.php');
+      $auth = new AuthController();
+      $user_login = $auth->getUserLogin();
+    }
 
     require_once('../template/header.php');
     require_once('../template/navbar.php');
@@ -64,7 +72,7 @@
                             <div class="row">
                                 <label class="col-sm-3 control-label">Username</label>
                                 <div class="col-sm-6">
-                                    <input type="text" id="username" name="username" placeholder="Masukan username..." class="form-control" required readonly>
+                                    <input type="text" id="username" name="username" value="<?php echo $user_login['username'];?>" placeholder="Masukan username..." class="form-control" required readonly>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +80,7 @@
                             <div class="row">
                                 <label class="col-sm-3 control-label">Email</label>
                                 <div class="col-sm-6">
-                                    <input type="email" id="email" name="email" placeholder="Masukan email..." class="form-control" required readonly>
+                                    <input type="email" id="email" name="email" value="<?php echo $user_login['email'];?>" placeholder="Masukan email..." class="form-control" required readonly>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +88,7 @@
                             <div class="row">
                                 <label class="col-sm-3 control-label">Nama</label>
                                 <div class="col-sm-6">
-                                    <input type="text" id="name" name="name" placeholder="Masukan nama..." class="form-control" required readonly>
+                                    <input type="text" id="name" name="name" value="<?php echo $user_login['nama'];?>" placeholder="Masukan nama..." class="form-control" required readonly>
                                 </div>
                             </div>
                         </div>
@@ -91,8 +99,8 @@
                                 <div class="col-sm-6">
                                     <select name="role" id="role" class="form-control" required disabled>
                                         <option value="">-- Pilih Role --</option>
-                                        <option value="1">Admin</option>
-                                        <option value="2">Writer</option>
+                                        <option value="1" <?php echo $user_login['role'] == 1 ? 'selected':'';?>>Admin</option>
+                                        <option value="2" <?php echo $user_login['role'] == 2 ? 'selected':'';?>>Writer</option>
                                     </select>
                                 </div>
                             </div>
@@ -106,15 +114,16 @@
                         </div>
                     </div>
                     
-                    <form id="form_data" action="info_user_proses.php" class="form-horizontal" method="post" style="display: none;">
+                    <form id="form_data" action="user_proses.php" class="form-horizontal" method="post" style="display: none;">
                         <!-- hidden input id -->
-                        <input type="hidden" id="id_user" name="id">
+                        <input type="hidden" id="id_user" name="id" value="<?php echo $user_login['id_user'];?>">
+                        <input type="hidden" name="profil" value="profil">
 
                         <div class="form-group">
                             <div class="row">
                                 <label class="col-sm-3 control-label">Username</label>
                                 <div class="col-sm-6">
-                                    <input type="text" id="username" name="username" placeholder="Masukan username..." class="form-control" required>
+                                    <input type="text" id="username" name="username" value="<?php echo $user_login['username'];?>" placeholder="Masukan username..." class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +131,7 @@
                             <div class="row">
                                 <label class="col-sm-3 control-label">Email</label>
                                 <div class="col-sm-6">
-                                    <input type="email" id="email" name="email" placeholder="Masukan email..." class="form-control" required>
+                                    <input type="email" id="email" name="email" value="<?php echo $user_login['email'];?>" placeholder="Masukan email..." class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -130,23 +139,7 @@
                             <div class="row">
                                 <label class="col-sm-3 control-label">Nama</label>
                                 <div class="col-sm-6">
-                                    <input type="text" id="name" name="name" placeholder="Masukan nama..." class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" id="div-password">
-                            <div class="row">
-                                <label class="col-sm-3 control-label">Password</label>
-                                <div class="col-sm-6">
-                                    <input type="password" id="password" name="password" placeholder="Masukan password" class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" id="div-rpassword">
-                            <div class="row">
-                                <label class="col-sm-3 control-label">Repeat Password</label>
-                                <div class="col-sm-6">
-                                    <input type="password" id="r_password" name="r_password" placeholder="Masukan ulang password" class="form-control" required>
+                                    <input type="text" id="name" name="name" value="<?php echo $user_login['nama'];?>" placeholder="Masukan nama..." class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -157,8 +150,8 @@
                                 <div class="col-sm-6">
                                     <select name="role" id="role" class="form-control" required>
                                         <option value="">-- Pilih Role --</option>
-                                        <option value="1">Admin</option>
-                                        <option value="2">Writer</option>
+                                        <option value="1" <?php echo $user_login['role'] == 1 ? 'selected':'';?>>Admin</option>
+                                        <option value="2" <?php echo $user_login['role'] == 2 ? 'selected':'';?>>Writer</option>
                                     </select>
                                 </div>
                             </div>
@@ -223,39 +216,33 @@
                     
                     <form action="user_proses.php" class="form-horizontal" method="post">
                     <!-- hidden input id -->
-                    <?php 
-                        if(isset($_SESSION['id_user'])){ ?>
-                            <input type="hidden" id="id_user_password" name="id" value="<?php echo $_SESSION['id_user'];?>">
-                    <?php
-                        unset($_SESSION['id_user']);
-                        } else { ?>
-                            <input type="hidden" id="id_user_password" name="id">
-                    <?php }?>
+                        <input type="hidden" id="id_user_password" name="id" value="<?php echo $user_login['id_user'];?>">
+                        <input type="hidden" name="profil" value="profil">
                       
-                      <div class="form-group" id="div-password">
-                          <div class="row">
-                              <label class="col-sm-3 control-label">Password</label>
-                              <div class="col-sm-6">
-                                  <input type="password" id="password" name="password" placeholder="Masukan password" class="form-control" required>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="form-group" id="div-rpassword">
-                          <div class="row">
-                              <label class="col-sm-3 control-label">Repeat Password</label>
-                              <div class="col-sm-6">
-                                  <input type="password" id="r_password" name="r_password" placeholder="Masukan ulang password" class="form-control" required>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="form-group text-right">
-                          <div class="row">
-                              <div class="col-sm-9">
-                                  <button type="submit" id="btn-update-password" class="btn btn-primary" name="submit-update-password"><i class="fa fa-edit"></i> Ubah</button>
-                              </div>
-                          </div>
-                      </div>
-                  </form>
+                        <div class="form-group" id="div-password">
+                            <div class="row">
+                                <label class="col-sm-3 control-label">Password</label>
+                                <div class="col-sm-6">
+                                    <input type="password" id="password" name="password" placeholder="Masukan password" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="div-rpassword">
+                            <div class="row">
+                                <label class="col-sm-3 control-label">Repeat Password</label>
+                                <div class="col-sm-6">
+                                    <input type="password" id="r_password" name="r_password" placeholder="Masukan ulang password" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group text-right">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <button type="submit" id="btn-update-password" class="btn btn-primary" name="submit-update-password"><i class="fa fa-edit"></i> Ubah</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

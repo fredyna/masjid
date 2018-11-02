@@ -26,7 +26,12 @@
     if(isset($_POST['submit-update'])){
         if($_POST['username'] == '' || $_POST['email'] == '' ||
             $_POST['name'] == '' || $_POST['role'] == ''){
+
             $_SESSION['form'] = 1;
+            if(isset($_POST['profil'])){
+                header('Location: profil_user.php');
+                die();
+            }
             header('Location: user.php');
             die();
         }
@@ -38,6 +43,10 @@
             'nama'      => $_POST['name'],
             'role'      => $_POST['role']
         ];
+
+        if(isset($_POST['profil'])){
+            $data['profil'] = 'profil';
+        }
         
         $user->update($id, $data);
     }
@@ -47,6 +56,10 @@
         if($_POST['password'] == '' || strlen($_POST['password']) < 5 || 
         $_POST['password'] != $_POST['r_password']){
             $_SESSION['form_password'] = 1;
+            if(isset($_POST['profil'])){
+                header('Location: profil_user.php');
+                die();
+            }
             $_SESSION['id_user'] = $id;
             header('Location: user.php');
             die();
@@ -55,6 +68,10 @@
         $data = [
             'password'  => md5($_POST['password']),
         ];
+
+        if(isset($_POST['profil'])){
+            $data['profil'] = 'profil';
+        }
         
         $user->updatePassword($id, $data);
     }

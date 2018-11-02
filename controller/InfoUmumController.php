@@ -1,5 +1,6 @@
 <?php 
-    require_once('../../model/InfoUmumModel.php');
+    $path = dirname(__DIR__);
+    require_once($path.'/model/InfoUmumModel.php');
 
     class InfoUmumController{
 

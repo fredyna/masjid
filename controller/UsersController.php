@@ -1,5 +1,6 @@
 <?php
-    require_once('../../model/UsersModel.php');
+    $path = dirname(__DIR__);
+    require_once($path.'/model/UsersModel.php');
 
     class UsersController{
 
@@ -45,12 +46,20 @@
                 session_start();
                 $_SESSION['save'] = 1;
 
+                if($data['profil'] == 'profil'){
+                    header('Location: profil_user.php' );
+                    die();
+                }
                 header('Location: user.php' );
                 die();
             } else{
                 session_start();
                 $_SESSION['save'] = 0;
 
+                if($data['profil'] == 'profil'){
+                    header('Location: profil_user.php' );
+                    die();
+                }
                 header('Location: user.php' );
                 die();
             }
@@ -62,6 +71,10 @@
             if($update){
                 session_start();
                 $_SESSION['update'] = 1;
+                if($data['profil'] == 'profil'){
+                    header('Location: profil_user.php' );
+                    die();
+                }
                 $_SESSION['id_user'] = $id;
 
                 header('Location: user.php' );
@@ -69,6 +82,10 @@
             } else{
                 session_start();
                 $_SESSION['update'] = 0;
+                if($data['profil'] == 'profil'){
+                    header('Location: profil_user.php' );
+                    die();
+                }
                 $_SESSION['id_user'] = $id;
 
                 header('Location: user.php' );

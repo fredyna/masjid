@@ -1,5 +1,13 @@
 <?php
-    session_start();
+    session_start();  
+    if(!isset($_SESSION['user_login'])){
+      header('Location: ../login.php' );
+      die();
+    } else{
+      require_once('../../controller/AuthController.php');
+      $auth = new AuthController();
+      $user_login = $auth->getUserLogin();
+    }
 
     require_once('../template/header.php');
     require_once('../template/navbar.php');
