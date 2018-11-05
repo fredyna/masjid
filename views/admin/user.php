@@ -347,12 +347,6 @@
             window.location.href = "user_hapus.php?id="+userId;
         }
     }
-
-    // $(function() {
-    //     $('#table-user').dataTable();
-    //     $('#table-user_wrapper .table-caption').text('Tabel Data User');
-    //     $('#table-user_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
-    // });
 </script>
 
 <?php 

@@ -24,7 +24,7 @@
         <a href="kategori.php"><i class="px-nav-icon ion-social-buffer"></i><span class="px-nav-label">KELOLA KATEGORI</span></a>
       </li>
       <li class="px-nav-item" id="menu-artikel">
-        <a href="javascript:void(0)"><i class="px-nav-icon ion-ios-paper"></i><span class="px-nav-label">KELOLA ARTIKEL</span></a>
+        <a href="artikel.php"><i class="px-nav-icon ion-ios-paper"></i><span class="px-nav-label">KELOLA ARTIKEL</span></a>
       </li>
       <li class="px-nav-item" id="menu-komentar">
         <a href="javascript:void(0)"><i class="px-nav-icon ion-ios-chatboxes"></i><span class="px-nav-label"> KELOLA KOMENTAR</span></a>

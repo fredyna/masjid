@@ -12,8 +12,12 @@
     require_once('../template/header.php');
     require_once('../template/navbar.php');
     require_once('../../controller/CategoryController.php');
+    require_once('../../controller/ArtikelController.php');
     $category = new CategoryController();
     $category = $category->getAll();
+    $artikel  = new ArtikelController();
+    $id_artikel = $_GET['id_artikel'];
+    $artikel  = $artikel->getById($id_artikel);
 ?>
 
 <!-- Content -->
@@ -31,7 +35,7 @@
         <div class="col-sm-12">
             <div class="panel">
                 <div class="panel-heading">
-                    <span class="panel-title">Artikel</span>
+                    <span class="panel-title">Edit Artikel</span>
                     <div class="panel-heading-controls">
                       <button class="btn btn-default btn-xs" id="btn-minimize"><i class="fa fa-minus"></i></button>
                       <button class="btn btn-default btn-xs" id="btn-show" style="display:none;"><i class="fa fa-plus"></i></button>
@@ -51,11 +55,16 @@
                         }
                     ?>
                     <form action="artikel_proses.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    <?php 
+                        if(isset($artikel)){
+                            while($row = $artikel->fetch()){
+                        ?>
+                        <input type="hidden" name="id" value="<?php echo $row['id_artikel']; ?>">
                         <div class="form-group">
                             <div class="row">
                                 <label class="col-sm-2 control-label">Judul</label>
                                 <div class="col-sm-6">
-                                    <input type="text" name="judul" placeholder="Masukan judul..." class="form-control">
+                                    <input type="text" id="judul" value="<?php echo $row['judul'];?>" name="judul" placeholder="Masukan judul..." class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -63,6 +72,7 @@
                             <div class="row">
                                 <label class="col-sm-2 control-label">Thumbnail</label>
                                 <div class="col-sm-6">
+                                    <img id="img-gambar" src="../../uploads/artikel/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:200px;">
                                     <input type="file" id="gambar" name="gambar" class="form-control">
                                 </div>
                             </div>
@@ -75,9 +85,9 @@
                                         <option value="">-- Pilih Kategori --</option>
                                         <?php 
                                             if(isset($category)){ 
-                                                while($row = $category->fetch()){
+                                                while($cat = $category->fetch()){
                                         ?>
-                                            <option value="<?php echo $row['id_kategori'];?>"><?php echo $row['kategori'];?></option>
+                                            <option value="<?php echo $cat['id_kategori'];?>" <?php echo $row['id_kategori'] == $cat['id_kategori'] ? 'selected':'';?>><?php echo $cat['kategori'];?></option>
                                         <?php }
                                             }
                                         ?>
@@ -89,18 +99,20 @@
                             <div class="row">
                                 <label class="col-sm-2 control-label">Isi Berita</label>
                                 <div class="col-sm-10">
-                                <textarea id="summernote-base" name="isi">Ketikan di sini...</textarea>
+                                <textarea id="summernote-base" name="isi"><?php echo $row['isi'];?></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group text-right">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button type="submit" id="btnAdd" name="submit-add" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</button>
-                                    <!-- <button type="button" id="btnEdit" name="submit-update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button> -->
+                                    <button type="submit" id="btnEdit" name="submit-update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
                                 </div>
                             </div>
                         </div>
+                        <?php }
+                            }
+                        ?>
                     </form>
                 </div>
             </div>
@@ -127,6 +139,22 @@
           ['help', ['help']]
           ],
       });
+    });
+
+    $(function(){
+        $.ajax({
+          type: "POST",
+          url: "kategori_edit.php", 
+          data: {id: kategoriId },
+          dataType: "json",
+          success:function(response)
+          {
+            $("#id_kategori").val(response[0].id_kategori);
+            $("#kategori").val(response[0].kategori);
+            $("#btn-add").hide();
+            $("#btn-update").show();
+          }
+        });
     });
 
     $(function(){

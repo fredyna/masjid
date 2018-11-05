@@ -71,6 +71,19 @@
                     <?php if(isset($data)){
                         while($row = $data->fetch()){ ?>
                         <div id="div_form_info" class="form-horizontal">
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-sm-3 control-label"></label>
+                                    <div class="col-sm-6">
+                                        <?php if($row['foto'] == null) { ?>
+                                            <img src="../../assets/img/masjid/masjid.jpg" alt="Masjid" style="width:320px; height: 240px; display:block; margin:auto;">
+                                        <?php } else { ?>
+                                            <img src="../../uploads/profil/<?php echo $row['foto'];?>" alt="Masjid" style="width:320px; height: 240px; display:block; margin:auto;">
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
                     
                             <div class="form-group">
                                 <div class="row">
@@ -130,9 +143,31 @@
                             </div>
                         </div>
 
-                        <form id="form_info" action="info_umum_proses.php" class="form-horizontal" method="post" style="display: none;">
+                        <form id="form_info" action="info_umum_proses.php" class="form-horizontal" method="post" style="display: none;" enctype="multipart/form-data">
                             <!-- hidden input id -->
                             <input type="hidden" id="id_masjid" name="id" value="<?php echo $row['id_masjid'];?>">
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-sm-3 control-label"></label>
+                                    <div class="col-sm-6">
+                                        <?php if($row['foto'] == null) { ?>
+                                            <img src="../../assets/img/masjid/masjid.jpg" alt="Masjid" style="width:320px; height: 240px; display:block; margin:auto;">
+                                        <?php } else { ?>
+                                            <img src="../../uploads/profil/<?php echo $row['foto'];?>" alt="Masjid" style="width:320px; height: 240px; display:block; margin:auto;">
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-sm-3 control-label">Foto Masjid</label>
+                                    <div class="col-sm-6">
+                                        <input type="file" id="foto" name="foto"  placeholder="Upload foto masjid" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <div class="row">
@@ -155,7 +190,6 @@
                                     <label class="col-sm-3 control-label">Tanggal Berdiri</label>
                                     <div class="col-sm-6">
                                         <input type="text" id="tanggal_berdiri" name="tanggal_berdiri" value="<?php echo date('d-m-Y', strtotime($row['tanggal_berdiri']));?>" placeholder="dd-mm-yyyy" class="form-control" required>
-                                        <input type="date" id="tanggal_berdiri_date" name="tanggal_berdiri" placeholder="yyyy/mm/dd" class="form-control" style="display:none;" required>
                                     </div>
                                 </div>
                             </div>
@@ -212,6 +246,10 @@
         $("#sub-profil-masjid").addClass("active");
     });
 
+    $(function() {
+        $('#tanggal_berdiri').datepicker();
+    });
+
     $(function(){
         $("#btn-edit").click(function(){
             $("#judul_form").text("Edit Informasi Umum");
@@ -220,13 +258,6 @@
             $("#form_info").show();
         });
     });
-
-    $(function(){
-        $("#tanggal_berdiri").click(function(){
-            $("#tanggal_berdiri").hide();
-            $("#tanggal_berdiri_date").show();
-        });
-    })
 
     
 </script>

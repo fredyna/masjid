@@ -48,7 +48,7 @@ class UsersModel extends Koneksi{
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "INSERT INTO users (username, email, nama, password, role) 
+            $query = "INSERT INTO ".$this->table." (username, email, nama, password, role) 
             VALUES('$username','$email','$nama','$password','$role')";
             $conn->exec($query);
             return true;
@@ -69,7 +69,7 @@ class UsersModel extends Koneksi{
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "UPDATE users set username='$username', email='$email', nama='$nama', role='$role'
+            $query = "UPDATE ".$this->table." set username='$username', email='$email', nama='$nama', role='$role'
             WHERE id_user='$id'";
             $stmt = $conn->prepare($query);
             $stmt->execute();
@@ -88,7 +88,7 @@ class UsersModel extends Koneksi{
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "UPDATE users set password='$password' WHERE id_user='$id'";
+            $query = "UPDATE ".$this->table." set password='$password' WHERE id_user='$id'";
             $stmt = $conn->prepare($query);
             $stmt->execute();
             return $stmt->rowCount() > 0 ? true:false;
@@ -104,7 +104,7 @@ class UsersModel extends Koneksi{
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "DELETE FROM users WHERE id_user='$id'";
+            $query = "DELETE FROM ".$this->table." WHERE id_user='$id'";
             $conn->exec($query);
             return true;
         } catch(PDOException $e){
