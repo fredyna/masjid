@@ -19,24 +19,48 @@
   </div>
 
   <div class="row">
-    <div class="col-md-6">
-      <div class="panel">
-        <div class="panel-title">Title</div>
-        <small class="panel-subtitle text-muted">Support panel subtitle</small>
-        <div class="panel-body">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+    <div class="col-sm-6">
+      <a href="#" class="box bg-primary">
+        <div class="box-cell p-a-3 valign-middle">
+          <i class="box-bg-icon middle right ion-person-stalker"></i>
+
+          <span class="font-size-24"><strong>3</strong></span><br>
+          <span class="font-size-15">Users</span>
         </div>
-      </div>
+      </a>
     </div>
-    
-    <div class="col-md-6">
-      <div class="panel">
-        <div class="panel-title">Title</div>
-        <small class="panel-subtitle text-muted">Support panel subtitle</small>
-        <div class="panel-body">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+
+    <div class="col-sm-6">
+      <a href="#" class="box bg-success">
+        <div class="box-cell p-a-3 valign-middle">
+          <i class="box-bg-icon middle right ion-social-buffer"></i>
+
+          <span class="font-size-24"><strong>4</strong></span><br>
+          <span class="font-size-15">Kategori</span>
         </div>
-      </div>
+      </a>
+    </div>
+
+    <div class="col-sm-6">
+      <a href="#" class="box bg-info">
+        <div class="box-cell p-a-3 valign-middle">
+          <i class="box-bg-icon middle right ion-ios-paper"></i>
+
+          <span class="font-size-24"><strong>5</strong></span><br>
+          <span class="font-size-15">Artikel</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-sm-6">
+      <a href="#" class="box bg-warning">
+        <div class="box-cell p-a-3 valign-middle">
+          <i class="box-bg-icon middle right ion-ios-chatboxes"></i>
+
+          <span class="font-size-24"><strong>5</strong></span><br>
+          <span class="font-size-15">Komentar</span>
+        </div>
+      </a>
     </div>
   </div>
 </div>

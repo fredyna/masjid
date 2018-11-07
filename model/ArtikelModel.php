@@ -7,6 +7,7 @@
         private $table = 'artikel';
         private $table2 = 'kategori_artikel';
         private $table3 = 'histori_artikel';
+        private $table4 = 'users';
 
         public function getData(){
             try {
@@ -15,13 +16,33 @@
 
                 $id_user = $_SESSION['user_login'];
 
-                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori WHERE id_user='$id_user'";
+                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
+                ".$this->table4.".id_user=".$this->table.".id_user WHERE ".$this->table.".id_user='$id_user'";
+
                 $stmt = $conn->prepare($query); 
                 $stmt->execute();
                 return $stmt;
             }
             catch(PDOException $e) {
-                echo "Error: " . $e->getMessage();
+                // echo "Error: " . $e->getMessage();
+            }
+            $conn = null;
+        }
+
+        public function getDataNotLogin(){
+            try {
+                $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
+                ".$this->table4.".id_user=".$this->table.".id_user";
+
+                $stmt = $conn->prepare($query); 
+                $stmt->execute();
+                return $stmt;
+            }
+            catch(PDOException $e) {
+                // echo "Error: " . $e->getMessage();
             }
             $conn = null;
         }
@@ -31,13 +52,15 @@
                 $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $query = "SELECT * FROM ".$this->table." WHERE id_artikel='$id'";
+                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
+                ".$this->table4.".id_user=".$this->table.".id_user WHERE id_artikel='$id'";
+
                 $stmt = $conn->prepare($query);
                 $stmt->execute();
                 return $stmt;
             }
             catch(PDOException $e) {
-                echo "Error: " . $e->getMessage();
+                // echo "Error: " . $e->getMessage();
             }
             $conn = null;
         }
@@ -67,7 +90,7 @@
                 $conn->exec($query);
                 return true;
             } catch(PDOException $e){
-                echo "Error: " . $e->getMessage();
+                // echo "Error: " . $e->getMessage();
                 return false;
             }
             $conn = null;
@@ -106,7 +129,7 @@
                 $stmt->execute();
                 return $stmt->rowCount() > 0 ? true:false;
             } catch(PDOException $e){
-                echo "Error: " . $e->getMessage();
+                // echo "Error: " . $e->getMessage();
                 return false;
             }
             $conn = null;
@@ -121,7 +144,7 @@
                 $conn->exec($query);
                 return true;
             } catch(PDOException $e){
-                echo "Error: " . $e->getMessage();
+                // echo "Error: " . $e->getMessage();
                 return false;
             }
             $conn = null;

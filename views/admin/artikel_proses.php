@@ -65,7 +65,7 @@ if(isset($_POST['submit-update'])){
         'isi'         => $_POST['isi']
     ];
 
-    if($_FILES["gambar"] != null){
+    if(file_exists($_FILES['gambar']['tmp_name']) || is_uploaded_file($_FILES['gambar']['tmp_name'])){
         $target_dir = "../../uploads/artikel/";
         $target_file = $target_dir . basename($_FILES["gambar"]["name"]);
         $uploadOk = 1;
@@ -91,7 +91,7 @@ if(isset($_POST['submit-update'])){
 
         if($uploadOk == 0){
             $_SESSION['form'] = 1;
-            header('Location: tambah_artikel.php');
+            header('Location: artikel_edit.php?id_artikel='.$id);
             die();
         }
 

@@ -124,7 +124,7 @@
                           <div class="row">
                               <div class="col-sm-9">
                                   <button type="submit" id="btn-add" class="btn btn-primary" name="submit-add"><i class="fa fa-plus"></i> Tambah</button>
-                                  <button type="submit" id="btn-update" class="btn btn-primary" name="submit-update"><i class="fa fa-edit"></i> Edit</button>
+                                  <button type="submit" id="btn-update" class="btn btn-primary" name="submit-update"><i class="fa fa-edit"></i> Update</button>
                               </div>
                           </div>
                       </div>
@@ -194,7 +194,7 @@
                           <div class="row">
                               <label class="col-sm-3 control-label">Password</label>
                               <div class="col-sm-6">
-                                  <input type="password" id="password" name="password" placeholder="Masukan password" class="form-control" required>
+                                  <input type="password" id="password-update" name="password" placeholder="Masukan password" class="form-control" required>
                               </div>
                           </div>
                       </div>
@@ -202,7 +202,7 @@
                           <div class="row">
                               <label class="col-sm-3 control-label">Repeat Password</label>
                               <div class="col-sm-6">
-                                  <input type="password" id="r_password" name="r_password" placeholder="Masukan ulang password" class="form-control" required>
+                                  <input type="password" id="r_password-update" name="r_password" placeholder="Masukan ulang password" class="form-control" required>
                               </div>
                           </div>
                       </div>
@@ -315,7 +315,9 @@
 
     function getUserById(userId){
         $("#div-password").hide();
+        $("#password").attr("required",false);
         $("#div-rpassword").hide();
+        $("#r_password").attr("required",false);
         $("#judul_form").text("Edit Data User");
         $("#sub_judul_form").text("Form Edit Data User");
         $.ajax({

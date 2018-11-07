@@ -11,6 +11,12 @@
             return $data;
         }
 
+        public function getAllNotLogin(){
+            $artikel = new ArtikelModel();
+            $data = $artikel->getDataNotLogin();
+            return $data;
+        }
+
         public function getById($id){
             $artikel = new ArtikelModel();
             $result = $artikel->getDataById($id);
