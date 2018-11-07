@@ -9,6 +9,9 @@
             case 'artikel': 
                 include('views/umum/artikel.php');
             break;
+            case 'about';
+                include('views/umum/profil_masjid.php');
+            break;
             default: 
                 include('page404.php'); 
             break;
