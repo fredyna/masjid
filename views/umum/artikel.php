@@ -11,9 +11,18 @@
     require_once($path.'/umum/navbar.php');
     require_once('controller/CategoryController.php');
     require_once('controller/ArtikelController.php');
+    require_once('controller/IPServer.php');
+    $ip = new IPServer();
+    $ip = $ip->getUserIP();
+    $data = [
+        'id_artikel'    => $id,
+        'ip_address'    => $ip
+    ];
     $category = new CategoryController();
     $category = $category->getAll();
     $artikel = new ArtikelController();
+    $histori = $artikel->addHistoriArtikel($data);
+    $histori = $artikel->getHistoriArtikel();
     $artikel = $artikel->getById($id);
 ?>
     <!-- Hero block -->
@@ -37,7 +46,7 @@
                     if(isset($artikel)){
                         while($row = $artikel->fetch()){ ?>
                         <div class="col-sm-12 col-main">
-                            <p class="text-muted"><i class="fa fa-newspaper-o"></i> Artikel > <?php echo $row['nama_kategori']; ?></p>
+                            <p class="text-muted"><i class="fa fa-newspaper-o"></i> Artikel > <a href="index.php?kategori=<?php echo $row['id_kategori']; ?>"><?php echo $row['nama_kategori']; ?></a></p>
                             <img class="thumbnail" src="uploads/artikel/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
                             <h4 class="judul-artikel"><?php echo $row['judul'];?></h4>
                             <p class="text-muted">OLEH <?php echo strtoupper($row['nama_user']); ?>| <?php echo date('d-m-Y', strtotime($row['created_at'])); ?> | <?php echo strtoupper($row['nama_kategori']);?></p>
@@ -66,7 +75,7 @@
                     <div id="list-kategori">
                         <?php if($category->rowCount() > 0) {
                             while($row = $category->fetch()){ 
-                                echo '<a href="javascript:void(0)" class="link-kategori">'.$row['kategori'].'</a>';
+                                echo '<a href="index.php?kategori='.$row['id_kategori'].'" class="link-kategori">'.$row['kategori'].'</a><br/>';
                                 } 
                             } 
                         ?>
@@ -77,6 +86,14 @@
                 <div id="artikel-populer" class="col-sm-12 col-side">
                     <h4>ARTIKEL POPULER</h4>
                     <hr style="border: 0.5px solid #999;">
+                    <div id="list-kategori">
+                        <?php if($histori->rowCount() > 0) {
+                            while($row = $histori->fetch()){ 
+                                echo '<a href="index.php?page=artikel&id='.$row['id_artikel'].'" class="link-kategori"><img src="uploads/artikel/'.$row['thumbnail'].'" alt="thumbnail" style="width:35px;"/> &nbsp;'.$row['judul'].'</a><br/>';
+                                } 
+                            } 
+                        ?>
+                    </div>
                 </div>
                 <!-- end artikel populer -->
                 <!-- galeri -->

@@ -23,6 +23,12 @@
             return $result;
         }
 
+        public function getByCategory($id){
+            $artikel = new ArtikelModel();
+            $result = $artikel->getDataByCategory($id);
+            return $result;
+        }
+
         public function getByIdJson($id){
             $artikel = new ArtikelModel();
             $result = $artikel->getDataById($id);
@@ -86,6 +92,22 @@
                 header('Location: artikel.php' );
                 die();
             }
+        }
+
+        public function addHistoriArtikel($data){
+            $artikel = new ArtikelModel();
+            $add = $artikel->addDataHistoriArtikel($data);
+            if($add){
+                return true;
+            } else{
+                return false;
+            }
+        }
+
+        public function getHistoriArtikel(){
+            $artikel = new ArtikelModel();
+            $data = $artikel->getDataHistoriArtikel();
+            return $data;
         }
 
     }

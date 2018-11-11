@@ -7,7 +7,13 @@
     $category = new CategoryController();
     $category = $category->getAll();
     $artikel = new ArtikelController();
-    $artikel = $artikel->getAllNotLogin();
+    $histori = $artikel->getHistoriArtikel();
+    if(isset($_GET['kategori'])){
+        $id = $_GET['kategori'];
+        $artikel = $artikel->getByCategory($id);    
+    } else{
+        $artikel = $artikel->getAllNotLogin();
+    }
 ?>
     <!-- Hero block -->
 
@@ -47,7 +53,7 @@
                 <?php } 
                     } else { ?>
                     <div class="col-sm-12 col-main">
-                        <p class="text-center"><i>Belum Ada Artikel</i></p>
+                        <p class="text-center"><i>Data tidak ditemukan</i></p>
                     </div>
                 <?php } ?>
             </div>
@@ -68,7 +74,7 @@
                     <div id="list-kategori">
                         <?php if($category->rowCount() > 0) {
                             while($row = $category->fetch()){ 
-                                echo '<a href="javascript:void(0)" class="link-kategori">'.$row['kategori'].'</a>';
+                                echo '<a href="index.php?kategori='.$row['id_kategori'].'" class="link-kategori">'.$row['kategori'].'</a><br/>';
                                 } 
                             } 
                         ?>
@@ -79,6 +85,14 @@
                 <div id="artikel-populer" class="col-sm-12 col-side">
                     <h4>ARTIKEL POPULER</h4>
                     <hr style="border: 0.5px solid #999;">
+                    <div id="list-kategori">
+                        <?php if($histori->rowCount() > 0) {
+                            while($row = $histori->fetch()){ 
+                                echo '<a href="index.php?page=artikel&id='.$row['id_artikel'].'" class="link-kategori"><img src="uploads/artikel/'.$row['thumbnail'].'" alt="thumbnail" style="width:35px;"/> &nbsp;'.$row['judul'].'</a><br/>';
+                                } 
+                            } 
+                        ?>
+                    </div>
                 </div>
                 <!-- end artikel populer -->
                 <!-- galeri -->

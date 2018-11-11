@@ -164,7 +164,7 @@
                                 <div class="row">
                                     <label class="col-sm-3 control-label">Foto Masjid</label>
                                     <div class="col-sm-6">
-                                        <input type="file" id="foto" name="foto"  placeholder="Upload foto masjid" class="form-control" required>
+                                        <input type="file" id="foto" name="foto"  placeholder="Upload foto masjid" class="form-control">
                                     </div>
                                 </div>
                             </div>

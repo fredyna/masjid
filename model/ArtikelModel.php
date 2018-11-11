@@ -65,6 +65,24 @@
             $conn = null;
         }
 
+        public function getDataByCategory($id){
+            try {
+                $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
+                ".$this->table4.".id_user=".$this->table.".id_user WHERE artikel.id_kategori='$id'";
+
+                $stmt = $conn->prepare($query);
+                $stmt->execute();
+                return $stmt;
+            }
+            catch(PDOException $e) {
+                // echo "Error: " . $e->getMessage();
+            }
+            $conn = null;
+        }
+
         public function addData($data){
             $id_kategori    = $data['id_kategori'];
             $id_user        = $_SESSION['user_login'];
@@ -146,6 +164,40 @@
             } catch(PDOException $e){
                 // echo "Error: " . $e->getMessage();
                 return false;
+            }
+            $conn = null;
+        }
+
+        public function addDataHistoriArtikel($data){
+            $id = $data['id_artikel'];
+            $ip = $data['ip_address'];
+            try{
+                $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = "INSERT INTO ".$this->table3." (id_artikel, ip_address) VALUES('$id', '$ip')";
+                $conn->exec($query);
+                return true;
+            } catch(PDOException $e){
+                // echo "Error: " . $e->getMessage();
+                return false;
+            }
+            $conn = null;
+        }
+
+        public function getDataHistoriArtikel(){
+            try {
+                $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = "SELECT ".$this->table3.".*, ".$this->table.".judul, ".$this->table.".thumbnail, count(".$this->table3.".id_artikel) AS jumlah  FROM ".$this->table3." JOIN ".$this->table." ON ".$this->table.".id_artikel=".$this->table3.".id_artikel GROUP BY ".$this->table3.".id_artikel ORDER BY jumlah DESC";
+
+                $stmt = $conn->prepare($query); 
+                $stmt->execute();
+                return $stmt;
+            }
+            catch(PDOException $e) {
+                // echo "Error: " . $e->getMessage();
             }
             $conn = null;
         }

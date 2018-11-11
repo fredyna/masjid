@@ -4,8 +4,11 @@
     require_once($path.'/umum/navbar.php');
     require_once('controller/CategoryController.php');
     require_once('controller/InfoUmumController.php');
+    require_once('controller/ArtikelController.php');
     $category = new CategoryController();
     $category = $category->getAll();
+    $artikel = new ArtikelController();
+    $histori = $artikel->getHistoriArtikel();
     $info     = new InfoUmumController();
     $info     = $info->getAll();
 ?>
@@ -86,7 +89,7 @@
                     <div id="list-kategori">
                         <?php if($category->rowCount() > 0) {
                             while($row = $category->fetch()){ 
-                                echo '<a href="javascript:void(0)" class="link-kategori">'.$row['kategori'].'</a>';
+                                echo '<a href="index.php?kategori='.$row['id_kategori'].'" class="link-kategori">'.$row['kategori'].'</a><br/>';
                                 } 
                             } 
                         ?>
@@ -97,6 +100,14 @@
                 <div id="artikel-populer" class="col-sm-12 col-side">
                     <h4>ARTIKEL POPULER</h4>
                     <hr style="border: 0.5px solid #999;">
+                    <div id="list-kategori">
+                        <?php if($histori->rowCount() > 0) {
+                            while($row = $histori->fetch()){ 
+                                echo '<a href="index.php?page=artikel&id='.$row['id_artikel'].'" class="link-kategori"><img src="uploads/artikel/'.$row['thumbnail'].'" alt="thumbnail" style="width:35px;"/> &nbsp;'.$row['judul'].'</a><br/>';
+                                } 
+                            } 
+                        ?>
+                    </div>
                 </div>
                 <!-- end artikel populer -->
                 <!-- galeri -->
