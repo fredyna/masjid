@@ -26,11 +26,8 @@
       <li class="px-nav-item" id="menu-artikel">
         <a href="artikel.php"><i class="px-nav-icon ion-ios-paper"></i><span class="px-nav-label">KELOLA ARTIKEL</span></a>
       </li>
-      <li class="px-nav-item" id="menu-komentar">
-        <a href="javascript:void(0)"><i class="px-nav-icon ion-ios-chatboxes"></i><span class="px-nav-label"> KELOLA KOMENTAR</span></a>
-      </li>
       <li class="px-nav-item" id="menu-kegiatan">
-        <a href="javascript:void(0)"><i class="px-nav-icon ion-android-calendar"></i><span class="px-nav-label"> KELOLA KEGIATAN</span></a>
+        <a href="kegiatan.php"><i class="px-nav-icon ion-android-calendar"></i><span class="px-nav-label"> KELOLA KEGIATAN</span></a>
       </li>
       <li class="px-nav-item" id="menu-galeri">
           <a href="javascript:void(0)"><i class="px-nav-icon ion-ios-photos"></i><span class="px-nav-label"> KELOLA GALERI</span></a>

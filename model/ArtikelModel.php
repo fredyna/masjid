@@ -16,8 +16,9 @@
 
                 $id_user = $_SESSION['user_login'];
 
-                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
-                ".$this->table4.".id_user=".$this->table.".id_user WHERE ".$this->table.".id_user='$id_user'";
+                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
+                ".$this->table4.".id_user=".$this->table.".id_user WHERE ".$this->table.".id_user='$id_user' ORDER BY
+                ".$this->table.".updated_at DESC";
 
                 $stmt = $conn->prepare($query); 
                 $stmt->execute();
@@ -34,8 +35,8 @@
                 $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
-                ".$this->table4.".id_user=".$this->table.".id_user";
+                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
+                ".$this->table4.".id_user=".$this->table.".id_user ORDER BY ".$this->table.".updated_at DESC";
 
                 $stmt = $conn->prepare($query); 
                 $stmt->execute();
@@ -52,7 +53,7 @@
                 $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
+                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
                 ".$this->table4.".id_user=".$this->table.".id_user WHERE id_artikel='$id'";
 
                 $stmt = $conn->prepare($query);
@@ -115,7 +116,12 @@
         }
 
         public function updateData($id, $data){
-            $id_kategori    = $data['id_kategori'];
+            if(isset($data['id_kategori'])){
+                $id_kategori    = $data['id_kategori'];
+            } else{
+                $id_kategori    = null;
+            }
+            
             $judul          = $data['judul'];
             $isi            = $data['isi'];
 
@@ -190,7 +196,7 @@
                 $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $query = "SELECT ".$this->table3.".*, ".$this->table.".judul, ".$this->table.".thumbnail, count(".$this->table3.".id_artikel) AS jumlah  FROM ".$this->table3." JOIN ".$this->table." ON ".$this->table.".id_artikel=".$this->table3.".id_artikel GROUP BY ".$this->table3.".id_artikel ORDER BY jumlah DESC";
+                $query = "SELECT ".$this->table3.".*, ".$this->table.".judul, ".$this->table.".id_kegiatan, ".$this->table.".thumbnail, count(".$this->table3.".id_artikel) AS jumlah  FROM ".$this->table3." JOIN ".$this->table." ON ".$this->table.".id_artikel=".$this->table3.".id_artikel GROUP BY ".$this->table3.".id_artikel ORDER BY jumlah DESC";
 
                 $stmt = $conn->prepare($query); 
                 $stmt->execute();

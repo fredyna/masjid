@@ -1,17 +1,19 @@
 <?php
 
+require_once('../../controller/KegiatanController.php');
 require_once('../../controller/ArtikelController.php');
+$kegiatan = new KegiatanController();
 $artikel = new ArtikelController();
 session_start();
 
 if(isset($_POST['submit-add'])){
-    if($_POST['judul'] == '' || $_POST['kategori'] == '' || $_POST['isi'] == ''){
+    if($_POST['nama_kegiatan'] == '' || $_POST['event_date'] == '' || $_POST['deskripsi'] == ''){
         $_SESSION['form'] = 1;
-        header('Location: tambah_artikel.php');
+        header('Location: tambah_kegiatan.php');
         die();
     }
 
-    $target_dir = "../../uploads/artikel/";
+    $target_dir = "../../uploads/kegiatan/";
     $target_file = $target_dir . basename($_FILES["gambar"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -36,37 +38,38 @@ if(isset($_POST['submit-add'])){
 
     if($uploadOk == 0){
         $_SESSION['form'] = 1;
-        header('Location: tambah_artikel.php');
+        header('Location: tambah_kegiatan.php');
         die();
     }
 
     $data = [
-        'gambar'   => $_FILES['gambar'],
-        'judul'       => $_POST['judul'],
-        'id_kategori' => $_POST['kategori'],
-        'isi'         => $_POST['isi']
+        'gambar'            => $_FILES['gambar'],
+        'nama_kegiatan'     => $_POST['nama_kegiatan'],
+        'deskripsi'         => $_POST['deskripsi'],
+        'event_date'        => $_POST['event_date']
     ];
-    
-    $artikel->add($data);
+
+    //save ke kegiatan
+    $kegiatan->add($data);
 }
 
 if(isset($_POST['submit-update'])){
     $id = $_POST['id'];
 
-    if($_POST['judul'] == '' || $_POST['kategori'] == '' || $_POST['isi'] == ''){
+    if($_POST['nama_kegiatan'] == '' || $_POST['event_date'] == '' || $_POST['deskripsi'] == ''){
         $_SESSION['form'] = 1;
-        header('Location: artikel_edit.php?id_artikel='.$id);
+        header('Location: kegiatan_edit.php?id_kegiatan='.$id);
         die();
     }
 
     $data = [
-        'judul'       => $_POST['judul'],
-        'id_kategori' => $_POST['kategori'],
-        'isi'         => $_POST['isi']
+        'nama_kegiatan'     => $_POST['nama_kegiatan'],
+        'deskripsi'         => $_POST['deskripsi'],
+        'event_date'        => $_POST['event_date']
     ];
 
     if(file_exists($_FILES['gambar']['tmp_name']) || is_uploaded_file($_FILES['gambar']['tmp_name'])){
-        $target_dir = "../../uploads/artikel/";
+        $target_dir = "../../uploads/kegiatan/";
         $target_file = $target_dir . basename($_FILES["gambar"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -91,14 +94,14 @@ if(isset($_POST['submit-update'])){
 
         if($uploadOk == 0){
             $_SESSION['form'] = 1;
-            header('Location: artikel_edit.php?id_artikel='.$id);
+            header('Location: kegiatan_edit.php?id_kegiatan='.$id);
             die();
         }
 
         $data['gambar'] = $_FILES['gambar'];
     }
     
-    $artikel->update($id, $data);
+    $kegiatan->update($id, $data);
 }
 
 ?>

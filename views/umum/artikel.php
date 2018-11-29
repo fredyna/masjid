@@ -21,9 +21,11 @@
     $category = new CategoryController();
     $category = $category->getAll();
     $artikel = new ArtikelController();
-    $histori = $artikel->addHistoriArtikel($data);
+    // $histori = $artikel->addHistoriArtikel($data);
     $histori = $artikel->getHistoriArtikel();
     $artikel = $artikel->getById($id);
+    $bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 ?>
     <!-- Hero block -->
 
@@ -44,15 +46,27 @@
             <div class="col-lg-7 col-content">
                 <?php 
                     if(isset($artikel)){
-                        while($row = $artikel->fetch()){ ?>
+                        while($row = $artikel->fetch()){ 
+                        $tgl = date('d', strtotime($row['created_at']));
+                        $bulan = $bulan[date('m',strtotime($row['created_at'])) - 1];
+                        $tahun = date('Y', strtotime($row['created_at']));
+                        $tgl_fix = $tgl . ' ' . $bulan . ' ' . $tahun;     
+                        ?>
                         <div class="col-sm-12 col-main">
                             <p class="text-muted"><i class="fa fa-newspaper-o"></i> Artikel > <a href="index.php?kategori=<?php echo $row['id_kategori']; ?>"><?php echo $row['nama_kategori']; ?></a></p>
-                            <img class="thumbnail" src="uploads/artikel/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
+                            <?php if($row['id_kegiatan'] == null) { ?>
+                                <img class="thumbnail" src="uploads/artikel/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
+                            <?php } else { ?>
+                                <img class="thumbnail" src="uploads/kegiatan/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
+                            <?php } ?>
+                            
                             <h4 class="judul-artikel"><?php echo $row['judul'];?></h4>
-                            <p class="text-muted">OLEH <?php echo strtoupper($row['nama_user']); ?>| <?php echo date('d-m-Y', strtotime($row['created_at'])); ?> | <?php echo strtoupper($row['nama_kategori']);?></p>
+                            <p class="text-muted">OLEH <?php echo strtoupper($row['nama_user']); ?>| <?php echo $tgl_fix; ?> | <?php echo strtoupper($row['nama_kategori']);?></p>
                             <p>
                                 <?php echo $row['isi'];?>
                             </p>
+
+                            <hr />
                         </div>
 
                 <?php   }
@@ -87,9 +101,12 @@
                     <h4>ARTIKEL POPULER</h4>
                     <hr style="border: 0.5px solid #999;">
                     <div id="list-kategori">
-                        <?php if($histori->rowCount() > 0) {
-                            while($row = $histori->fetch()){ 
-                                echo '<a href="index.php?page=artikel&id='.$row['id_artikel'].'" class="link-kategori"><img src="uploads/artikel/'.$row['thumbnail'].'" alt="thumbnail" style="width:35px;"/> &nbsp;'.$row['judul'].'</a><br/>';
+                        <?php 
+                            if($histori->rowCount() > 0) {
+                                while($row = $histori->fetch()){ 
+                                    if($row['id_kegiatan'] == null) {
+                                        echo '<a href="index.php?page=artikel&id='.$row['id_artikel'].'" class="link-kategori"><img src="uploads/artikel/'.$row['thumbnail'].'" alt="thumbnail" style="width:35px;"/> &nbsp;'.$row['judul'].'</a><br/>';
+                                    }
                                 } 
                             } 
                         ?>

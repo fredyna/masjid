@@ -101,11 +101,14 @@
                     <h4>ARTIKEL POPULER</h4>
                     <hr style="border: 0.5px solid #999;">
                     <div id="list-kategori">
-                        <?php if($histori->rowCount() > 0) {
-                            while($row = $histori->fetch()){ 
-                                echo '<a href="index.php?page=artikel&id='.$row['id_artikel'].'" class="link-kategori"><img src="uploads/artikel/'.$row['thumbnail'].'" alt="thumbnail" style="width:35px;"/> &nbsp;'.$row['judul'].'</a><br/>';
+                        <?php 
+                            if($histori->rowCount() > 0) {
+                                while($row = $histori->fetch()){ 
+                                    if($row['id_kegiatan'] == null) {
+                                        echo '<a href="index.php?page=artikel&id='.$row['id_artikel'].'" class="link-kategori"><img src="uploads/artikel/'.$row['thumbnail'].'" alt="thumbnail" style="width:35px;"/> &nbsp;'.$row['judul'].'</a><br/>';
+                                    }
                                 } 
-                            } 
+                            }  
                         ?>
                     </div>
                 </div>

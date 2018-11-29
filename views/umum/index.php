@@ -37,14 +37,20 @@
                         while($row = $artikel->fetch()){
                     ?>
                     <div class="col-sm-12 col-main">
-                        <img class="thumbnail" src="uploads/artikel/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
+
+                        <?php if($row['id_kegiatan'] == null) { ?>
+                            <img class="thumbnail" src="uploads/artikel/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
+                        <?php } else { ?>
+                            <img class="thumbnail" src="uploads/kegiatan/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
+                        <?php } ?>
+                        
                         <p class="text-muted">OLEH <?php echo strtoupper($row['nama_user']);?> | <?php echo date('d-m-Y', strtotime($row['created_at']));?> | <?php echo strtoupper($row['nama_kategori']);?></p>
                         <h4 onclick="chooseArtikel('<?php echo $row['id_artikel']?>')" class="judul-artikel"><?php echo $row['judul'];?></h4>
                         <p>
                             <?php 
                                 $str = $row['isi'];
                                 if (strlen($row['isi']) > 150){
-                                    $str = substr($row['isi'], 0, 150) . '...';
+                                    $str = substr($row['isi'], 0, 150) . ' ...';
                                 }
                                 echo $str;
                             ?>
@@ -86,11 +92,14 @@
                     <h4>ARTIKEL POPULER</h4>
                     <hr style="border: 0.5px solid #999;">
                     <div id="list-kategori">
-                        <?php if($histori->rowCount() > 0) {
+                        <?php 
+                        if($histori->rowCount() > 0) {
                             while($row = $histori->fetch()){ 
-                                echo '<a href="index.php?page=artikel&id='.$row['id_artikel'].'" class="link-kategori"><img src="uploads/artikel/'.$row['thumbnail'].'" alt="thumbnail" style="width:35px;"/> &nbsp;'.$row['judul'].'</a><br/>';
-                                } 
+                                if($row['id_kegiatan'] == null) {
+                                    echo '<a href="index.php?page=artikel&id='.$row['id_artikel'].'" class="link-kategori"><img src="uploads/artikel/'.$row['thumbnail'].'" alt="thumbnail" style="width:35px;"/> &nbsp;'.$row['judul'].'</a><br/>';
+                                }
                             } 
+                        } 
                         ?>
                     </div>
                 </div>

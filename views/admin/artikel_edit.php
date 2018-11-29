@@ -24,7 +24,7 @@
 <div class="px-content">
     <ol class="breadcrumb page-breadcrumb">
         <li><a href="javascript:void(0)">Kelola Artikel</a></li>
-        <li class="active">Tambah Artikel</li>
+        <li class="active">Edit Artikel</li>
     </ol>
 
     <div class="page-header">
@@ -72,29 +72,39 @@
                             <div class="row">
                                 <label class="col-sm-2 control-label">Thumbnail</label>
                                 <div class="col-sm-6">
-                                    <img id="img-gambar" src="../../uploads/artikel/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:200px;">
-                                    <input type="file" id="gambar" name="gambar" class="form-control">
+
+                                    <?php if($row['id_kegiatan'] != null) { ?>
+                                        <img id="img-gambar" src="../../uploads/kegiatan/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:200px;">
+                                    <?php } else { ?>
+                                        <img id="img-gambar" src="../../uploads/artikel/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:200px;">
+                                        <input type="file" id="gambar" name="gambar" class="form-control">
+                                    <?php } ?>
+                                    
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <label class="col-sm-2 control-label">Kategori</label>
-                                <div class="col-sm-6">
-                                    <select name="kategori" id="kategori" class="form-control">
-                                        <option value="">-- Pilih Kategori --</option>
-                                        <?php 
-                                            if(isset($category)){ 
-                                                while($cat = $category->fetch()){
-                                        ?>
-                                            <option value="<?php echo $cat['id_kategori'];?>" <?php echo $row['id_kategori'] == $cat['id_kategori'] ? 'selected':'';?>><?php echo $cat['kategori'];?></option>
-                                        <?php }
-                                            }
-                                        ?>
-                                    </select>
+
+                        <?php if($row['id_kategori'] != null) { ?>
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-sm-2 control-label">Kategori</label>
+                                    <div class="col-sm-6">
+                                        <select name="kategori" id="kategori" class="form-control">
+                                            <option value="">-- Pilih Kategori --</option>
+                                            <?php 
+                                                if(isset($category)){ 
+                                                    while($cat = $category->fetch()){
+                                            ?>
+                                                <option value="<?php echo $cat['id_kategori'];?>" <?php echo $row['id_kategori'] == $cat['id_kategori'] ? 'selected':'';?>><?php echo $cat['kategori'];?></option>
+                                            <?php }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php } ?>
+                        
                         <div class="form-group">
                             <div class="row">
                                 <label class="col-sm-2 control-label">Isi Berita</label>
@@ -106,7 +116,10 @@
                         <div class="form-group text-right">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button type="submit" id="btnEdit" name="submit-update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
+                                    <?php if($row['id_kegiatan'] == null ){ ?>
+                                        <button type="submit" id="btnEdit" name="submit-update" class="btn btn-primary"><i class="fa fa-edit"></i> Update</button>
+                                    <?php } ?>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -139,22 +152,6 @@
           ['help', ['help']]
           ],
       });
-    });
-
-    $(function(){
-        $.ajax({
-          type: "POST",
-          url: "kategori_edit.php", 
-          data: {id: kategoriId },
-          dataType: "json",
-          success:function(response)
-          {
-            $("#id_kategori").val(response[0].id_kategori);
-            $("#kategori").val(response[0].kategori);
-            $("#btn-add").hide();
-            $("#btn-update").show();
-          }
-        });
     });
 
     $(function(){

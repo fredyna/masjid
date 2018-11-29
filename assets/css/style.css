@@ -59,6 +59,15 @@ body{
 
 }
 
+.panel-komentar{
+    margin-top: 50px;
+}
+
+.title-komentar{
+    text-decoration: bold;
+    color: #444;
+}
+
 @media (min-width: 992px){
     .col-content{
         margin: 15px;

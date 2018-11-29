@@ -22,6 +22,8 @@
   <!-- Theme -->
   <link href="../../assets/css/themes/candy-green.min.css" rel="stylesheet" type="text/css">
 
+  <link href="../../assets/css/style-admin.css" rel="stylesheet" type="text/css">
+
   <!-- Pace.js -->
   <script src="../../assets/pace/pace.min.js"></script>
   <!-- Load jQuery -->
