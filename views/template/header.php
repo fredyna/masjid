@@ -27,7 +27,7 @@
   <!-- Pace.js -->
   <script src="../../assets/pace/pace.min.js"></script>
   <!-- Load jQuery -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="../../assets/js/jquery.min.js"></script>
   <!-- Core scripts -->
   <script src="../../assets/js/bootstrap.min.js"></script>
   <script src="../../assets/js/pixeladmin.min.js"></script>

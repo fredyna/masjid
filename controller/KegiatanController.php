@@ -12,9 +12,10 @@
             return $data;
         }
 
-        public function getAllNotLogin(){
+        public function getAllNotLogin($page, $key=''){
             $kegiatan = new KegiatanModel();
-            $data = $kegiatan->getDataNotLogin();
+            $offset = ($page * 5) - 5;
+            $data = $kegiatan->getDataNotLogin($offset, $key);
             return $data;
         }
 
@@ -105,6 +106,17 @@
                 header('Location: kegiatan.php' );
                 die();
             }
+        }
+
+        public function getTotal(){
+            $kegiatan = new KegiatanModel();
+            $jumlah = 0;
+            $result = $kegiatan->getTotal();
+            while($row = $result->fetch())
+            {
+                $jumlah = $row['jumlah'];
+            }
+            return $jumlah;
         }
     }
 

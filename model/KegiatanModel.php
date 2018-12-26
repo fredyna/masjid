@@ -15,7 +15,7 @@
 
                 $id_user = $_SESSION['user_login'];
 
-                $query = "SELECT ".$this->table.".*, ".$this->table2.".nama AS nama_user FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user WHERE ".$this->table.".id_user='$id_user' ORDER BY ".$this->table.".updated_at DESC";
+                $query = "SELECT ".$this->table.".*, ".$this->table2.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user WHERE ".$this->table.".id_user='$id_user' ORDER BY ".$this->table.".updated_at DESC";
 
                 $stmt = $conn->prepare($query); 
                 $stmt->execute();
@@ -27,12 +27,16 @@
             $conn = null;
         }
 
-        public function getDataNotLogin(){
+        public function getDataNotLogin($offset=0, $key=''){
             try {
                 $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $query = "SELECT ".$this->table.".*, ".$this->table2.".nama AS nama_user FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user";
+                if($key==''){
+                    $query = "SELECT ".$this->table.".*, ".$this->table2.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user ORDER BY ".$this->table.".updated_at DESC LIMIT 5 OFFSET ".$offset;
+                } else{
+                    $query = "SELECT ".$this->table.".*, ".$this->table2.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user WHERE ".$this->table.".nama_kegiatan LIKE '%$key%' OR ".$this->table.".deskripsi LIKE '%$key%' ORDER BY ".$this->table.".updated_at DESC LIMIT 5 OFFSET ".$offset;
+                }
 
                 $stmt = $conn->prepare($query); 
                 $stmt->execute();
@@ -168,6 +172,23 @@
             } catch(PDOException $e){
                 // echo "Error: " . $e->getMessage();
                 return false;
+            }
+            $conn = null;
+        }
+
+        public function getTotal(){
+            try {
+                $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = "SELECT COUNT(*) AS jumlah FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user ORDER BY ".$this->table.".updated_at DESC";
+
+                $stmt = $conn->prepare($query); 
+                $stmt->execute();
+                return $stmt;
+            }
+            catch(PDOException $e) {
+                // echo "Error: " . $e->getMessage();
             }
             $conn = null;
         }

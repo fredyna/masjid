@@ -9,6 +9,18 @@
             case 'artikel': 
                 include('views/umum/artikel.php');
             break;
+            case 'kegiatan': 
+                include('views/umum/kegiatan.php');
+            break;
+            case 'detail_kegiatan': 
+                include('views/umum/kegiatan_detail.php');
+            break;
+            case 'galeri': 
+                include('views/umum/galeri.php');
+            break;
+            case 'galeri_detail':
+                include('views/umum/galeri_detail.php');
+            break;
             case 'about';
                 include('views/umum/profil_masjid.php');
             break;

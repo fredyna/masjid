@@ -68,6 +68,16 @@ body{
     color: #444;
 }
 
+.gallery-folder{
+    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 3%;
+    transition: transform .2s;
+}
+
+.gallery-folder:hover{
+    transform: scale(1.1);
+}
+
 @media (min-width: 992px){
     .col-content{
         margin: 15px;

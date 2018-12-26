@@ -10,17 +10,13 @@
     require_once($path.'/umum/header.php');
     require_once($path.'/umum/navbar.php');
     require_once('controller/ArtikelController.php');
-    require_once('controller/IPServer.php');
-    $ip = new IPServer();
-    $ip = $ip->getUserIP();
-    $data = [
-        'id_artikel'    => $id,
-        'ip_address'    => $ip
-    ];
+    require_once('controller/KegiatanController.php');
+    
     $artikel = new ArtikelController();
-    $histori = $artikel->addHistoriArtikel($data);
+    $kegiatan = new KegiatanController();
+
     $histori = $artikel->getHistoriArtikel();
-    $artikel = $artikel->getById($id);
+    $kegiatan = $kegiatan->getById($id);
     $bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
                 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 ?>
@@ -42,25 +38,22 @@
             <!-- main -->
             <div class="col-lg-7 col-content">
                 <?php 
-                    if(isset($artikel)){
-                        while($row = $artikel->fetch()){ 
+                    if(isset($kegiatan)){
+                        while($row = $kegiatan->fetch()){ 
                         $tgl = date('d', strtotime($row['created_at']));
                         $bulan = $bulan[date('m',strtotime($row['created_at'])) - 1];
                         $tahun = date('Y', strtotime($row['created_at']));
                         $tgl_fix = $tgl . ' ' . $bulan . ' ' . $tahun;     
                         ?>
                         <div class="col-sm-12 col-main">
-                            <p class="text-muted"><i class="fa fa-newspaper-o"></i> Artikel > <a href="index.php?kategori=<?php echo $row['id_kategori']; ?>"><?php echo $row['nama_kategori']; ?></a></p>
-                            <?php if($row['id_kegiatan'] == null) { ?>
-                                <img class="thumbnail" src="uploads/artikel/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
-                            <?php } else { ?>
-                                <img class="thumbnail" src="uploads/kegiatan/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
-                            <?php } ?>
+                            <p class="text-muted"><i class="fa fa-newspaper-o"></i> Kegiatan</p>
                             
-                            <h4 class="judul-artikel"><?php echo $row['judul'];?></h4>
-                            <p class="text-muted">OLEH <?php echo strtoupper($row['nama_user']); ?>| <?php echo $tgl_fix; ?> | <?php echo strtoupper($row['nama_kategori']);?></p>
+                            <img class="thumbnail" src="uploads/kegiatan/<?php echo $row['gambar'];?>" alt="Thumbnail" style="width:100%;"/>
+                            
+                            <h4 class="judul-artikel"><?php echo $row['nama_kegiatan'];?></h4>
+                            <p class="text-muted">OLEH <?php echo strtoupper($row['nama_user']); ?>| <?php echo $tgl_fix; ?></p>
                             <p>
-                                <?php echo $row['isi'];?>
+                                <?php echo $row['deskripsi'];?>
                             </p>
 
                             <hr />
@@ -114,7 +107,7 @@
 
     <script>
         $(function(){
-            $("#menu-home").addClass('active');
+            $("#menu-kegiatan").addClass('active');
         });
     </script>
 

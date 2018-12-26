@@ -16,7 +16,8 @@ class UsersModel extends Koneksi{
             return $stmt;
         }
         catch(PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            // echo "Error: " . $e->getMessage();
+            return false;
         }
         $conn = null;
     }
@@ -32,7 +33,8 @@ class UsersModel extends Koneksi{
             return $stmt;
         }
         catch(PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            // echo "Error: " . $e->getMessage();
+            return false;
         }
         $conn = null;
     }
@@ -53,7 +55,7 @@ class UsersModel extends Koneksi{
             $conn->exec($query);
             return true;
         } catch(PDOException $e){
-            echo "Error: " . $e->getMessage();
+            // echo "Error: " . $e->getMessage();
             return false;
         }
         $conn = null;
@@ -75,7 +77,7 @@ class UsersModel extends Koneksi{
             $stmt->execute();
             return $stmt->rowCount() > 0 ? true:false;
         } catch(PDOException $e){
-            echo "Error: " . $e->getMessage();
+            // echo "Error: " . $e->getMessage();
             return false;
         }
         $conn = null;
@@ -93,7 +95,7 @@ class UsersModel extends Koneksi{
             $stmt->execute();
             return $stmt->rowCount() > 0 ? true:false;
         } catch(PDOException $e){
-            echo "Error: " . $e->getMessage();
+            // echo "Error: " . $e->getMessage();
             return false;
         }
         $conn = null;
@@ -108,7 +110,7 @@ class UsersModel extends Koneksi{
             $conn->exec($query);
             return true;
         } catch(PDOException $e){
-            echo "Error: " . $e->getMessage();
+            // echo "Error: " . $e->getMessage();
             return false;
         }
         $conn = null;

@@ -4,9 +4,12 @@
     require_once($path.'/umum/navbar.php');
     require_once('controller/CategoryController.php');
     require_once('controller/InfoUmumController.php');
+    require_once('controller/KegiatanController.php');
     require_once('controller/ArtikelController.php');
     $category = new CategoryController();
     $category = $category->getAll();
+    $kegiatan = new KegiatanController();
+    $kegiatan = $kegiatan->getAllNotLogin(1);
     $artikel = new ArtikelController();
     $histori = $artikel->getHistoriArtikel();
     $info     = new InfoUmumController();
@@ -77,74 +80,16 @@
             <!-- side right -->
             <div class="col-lg-4 col-content">
                 <!-- Kegiatan -->
-                <div id="kegiatan" class="col-sm-12 col-side">
-                    <h4>KEGIATAN</h4>
-                    <hr style="border: 0.5px solid #999;">
-                </div>
-                <!-- end kegiatan -->
+                <?php include('views/template/_kegiatan.php');?>
+
                 <!-- kategori -->
-                <div id="kategori" class="col-sm-12 col-side">
-                    <h4>KATEGORI ARTIKEL</h4>
-                    <hr style="border: 0.5px solid #999;">
-                    <div id="list-kategori">
-                        <?php if($category->rowCount() > 0) {
-                            while($row = $category->fetch()){ 
-                                echo '<a href="index.php?kategori='.$row['id_kategori'].'" class="link-kategori">'.$row['kategori'].'</a><br/>';
-                                } 
-                            } 
-                        ?>
-                    </div>
-                </div>
-                <!-- end kategori -->
+                <?php include('views/template/_kategori.php');?>
+
                 <!-- artikel populer -->
-                <div id="artikel-populer" class="col-sm-12 col-side">
-                    <h4>ARTIKEL POPULER</h4>
-                    <hr style="border: 0.5px solid #999;">
-                    <div id="list-kategori">
-                        <?php 
-                            if($histori->rowCount() > 0) {
-                                while($row = $histori->fetch()){ 
-                                    if($row['id_kegiatan'] == null) {
-                                        echo '<a href="index.php?page=artikel&id='.$row['id_artikel'].'" class="link-kategori"><img src="uploads/artikel/'.$row['thumbnail'].'" alt="thumbnail" style="width:35px;"/> &nbsp;'.$row['judul'].'</a><br/>';
-                                    }
-                                } 
-                            }  
-                        ?>
-                    </div>
-                </div>
-                <!-- end artikel populer -->
+                <?php include('views/template/_artikel_populer.php');?>
+
                 <!-- galeri -->
-                <div id="galeri" class="col-sm-12 col-side">
-                    <h4>GALERI MASJID</h4>
-                    <hr style="border: 0.5px solid #999;">
-                    <div class="row">
-                        <div class="col-md-4 col-sm-6 text-center">
-                            <img src="assets/img/folder.png" alt="Folder" style="width:100%;">
-                            <span class="text-galeri">2018</span>
-                        </div>
-                        <div class="col-md-4 col-sm-6 text-center">
-                            <img src="assets/img/folder.png" alt="Folder" style="width:100%;">
-                            <span class="text-galeri">2017</span>
-                        </div>
-                        <div class="col-md-4 col-sm-6 text-center">
-                            <img src="assets/img/folder.png" alt="Folder" style="width:100%;">
-                            <span class="text-galeri">2016</span>
-                        </div>
-                        <div class="col-md-4 col-sm-6 text-center">
-                            <img src="assets/img/folder.png" alt="Folder" style="width:100%;">
-                            <span class="text-galeri">2015</span>
-                        </div>
-                        <div class="col-md-4 col-sm-6 text-center">
-                            <img src="assets/img/folder.png" alt="Folder" style="width:100%;">
-                            <span class="text-galeri">2014</span>
-                        </div>
-                        <div class="col-md-4 col-sm-6 text-center">
-                            <img src="assets/img/folder.png" alt="Folder" style="width:100%;">
-                            <span class="text-galeri">2013</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- end galeri -->
+                <?php include('views/template/_galeri.php');?>
 
             </div>
             <!-- end side right -->

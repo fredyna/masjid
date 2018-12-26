@@ -2,9 +2,12 @@
     $path = dirname(__DIR__);
     require_once($path.'/umum/header.php');
     require_once($path.'/umum/navbar.php');
+    require_once('controller/KegiatanController.php');
     require_once('controller/ArtikelController.php');
+
     $artikel  = new ArtikelController();
-    $total    = $artikel->getTotal();
+    $kegiatan  = new KegiatanController();
+    $total    = $kegiatan->getTotal();
     $page_now     = 1;
     if(isset($_GET['pagination'])){
         $page_now = $_GET['pagination'];
@@ -12,16 +15,14 @@
 
     $total_page = $total / 5;
     $sisa_total_page = $total % 5;
-    $histori  = $artikel->getHistoriArtikel();
-    if(isset($_GET['kategori'])){
-        $id = $_GET['kategori'];
-        $artikel = $artikel->getByCategory($id, $page_now);    
-    } else if(isset($_GET['key'])){
+
+    if(isset($_GET['key'])){
         $key = $_GET['key'];
-        $artikel = $artikel->getAllNotLogin($page_now, $key);  
+        $kegiatan = $kegiatan->getAllNotLogin($page_now, $key);  
     } else{
-        $artikel = $artikel->getAllNotLogin($page_now);
+        $kegiatan = $kegiatan->getAllNotLogin($page_now);
     }
+    $histori  = $artikel->getHistoriArtikel();
 ?>
     <!-- Hero block -->
 
@@ -39,7 +40,6 @@
     <div id="content-wrapper" class="container">
         <div class="row">
             <!-- main -->
-
             <div class="col-lg-7 col-content">
 
                 <!-- search -->
@@ -52,26 +52,26 @@
                     </div>
                 </div>
                 <!-- end search -->
-                
+
                 <?php 
-                    if(isset($artikel) && $artikel->rowCount() > 0){ 
-                        while($row = $artikel->fetch()){
+                    if(isset($kegiatan) && $kegiatan->rowCount() > 0){ 
+                        while($row = $kegiatan->fetch()){
                     ?>
                     <div class="col-sm-12 col-main">
 
                         <?php if($row['id_kegiatan'] == null) { ?>
-                            <img class="thumbnail" src="uploads/artikel/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
+                            <img class="thumbnail" src="uploads/kegiatan/<?php echo $row['gambar'];?>" alt="Thumbnail" style="width:100%;"/>
                         <?php } else { ?>
-                            <img class="thumbnail" src="uploads/kegiatan/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
+                            <img class="thumbnail" src="uploads/kegiatan/<?php echo $row['gambar'];?>" alt="Thumbnail" style="width:100%;"/>
                         <?php } ?>
                         
-                        <p class="text-muted">OLEH <?php echo strtoupper($row['nama_user']);?> | <?php echo date('d-m-Y', strtotime($row['created_at']));?> | <?php echo strtoupper($row['nama_kategori']);?></p>
-                        <h4 onclick="chooseArtikel('<?php echo $row['id_artikel']?>')" class="judul-artikel"><?php echo $row['judul'];?></h4>
+                        <p class="text-muted">OLEH <?php echo strtoupper($row['nama_user']);?> | <?php echo date('d-m-Y', strtotime($row['created_at']));?></p>
+                        <h4 onclick="chooseArtikel('<?php echo $row['id_kegiatan']?>')" class="judul-artikel"><?php echo $row['nama_kegiatan'];?></h4>
                         <p>
                             <?php 
-                                $str = $row['isi'];
-                                if (strlen($row['isi']) > 150){
-                                    $str = substr($row['isi'], 0, 150) . ' ...';
+                                $str = $row['deskripsi'];
+                                if (strlen($row['deskripsi']) > 150){
+                                    $str = substr($row['deskripsi'], 0, 150) . ' ...';
                                 }
                                 echo $str;
                             ?>
@@ -153,16 +153,16 @@
     </div>
     <script>
         $(function(){
-            $("#menu-home").addClass('active');
+            $("#menu-kegiatan").addClass('active');
 
             $("#btn-search").click(function(){
                 var key = $("#key-search").val();
-                window.location = 'index.php?key='+key;
+                window.location = 'index.php?page=kegiatan&key='+key;
             });
         });
 
         function chooseArtikel(id){
-            window.location.href = 'index.php?page=artikel&id='+id;
+            window.location.href = 'index.php?page=detail_kegiatan&id='+id;
         }
     </script>
 

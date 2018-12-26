@@ -11,9 +11,10 @@
             return $data;
         }
 
-        public function getAllNotLogin(){
+        public function getAllNotLogin($page, $key=""){
+            $offset = ($page * 5) - 5;
             $artikel = new ArtikelModel();
-            $data = $artikel->getDataNotLogin();
+            $data = $artikel->getDataNotLogin($offset, $key);
             return $data;
         }
 
@@ -23,9 +24,10 @@
             return $result;
         }
 
-        public function getByCategory($id){
+        public function getByCategory($id, $page){
+            $offset = ($page * 5) - 5;
             $artikel = new ArtikelModel();
-            $result = $artikel->getDataByCategory($id);
+            $result = $artikel->getDataByCategory($id, $page);
             return $result;
         }
 
@@ -108,6 +110,17 @@
             $artikel = new ArtikelModel();
             $data = $artikel->getDataHistoriArtikel();
             return $data;
+        }
+
+        public function getTotal(){
+            $artikel = new ArtikelModel();
+            $jumlah = 0;
+            $result = $artikel->getTotal();
+            while($row = $result->fetch())
+            {
+                $jumlah = $row['jumlah'];
+            }
+            return $jumlah;
         }
 
     }

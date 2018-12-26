@@ -12,8 +12,8 @@
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
         <li id="menu-home"><a href="index.php">HOME</a></li>
-        <li id="menu-kegiatan"><a href="javascript:void(0)">KEGIATAN</a></li>
-        <li id="menu-galeri"><a href="javascript:void(0)">GALERI</a></li>
+        <li id="menu-kegiatan"><a href="index.php?page=kegiatan">KEGIATAN</a></li>
+        <li id="menu-galeri"><a href="index.php?page=galeri">GALERI</a></li>
         <li id="menu-about"><a href="index.php?page=about">ABOUT US</a></li>
         </ul>
     </div>

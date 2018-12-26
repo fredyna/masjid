@@ -3,25 +3,23 @@
     require_once($path.'/umum/header.php');
     require_once($path.'/umum/navbar.php');
     require_once('controller/ArtikelController.php');
-    $artikel  = new ArtikelController();
-    $total    = $artikel->getTotal();
-    $page_now     = 1;
-    if(isset($_GET['pagination'])){
-        $page_now = $_GET['pagination'];
-    }
+    require_once('controller/GaleriController.php');
 
-    $total_page = $total / 5;
-    $sisa_total_page = $total % 5;
+    $galeri = new GaleriController();
+    // $total = $galeri->getTotal();
+
+    // $page_now     = 1;
+    // if(isset($_GET['pagination'])){
+    //     $page_now = $_GET['pagination'];
+    // }
+
+    // $total_page = $total / 1;
+    // $sisa_total_page = $total % 1;
+
+    $artikel  = new ArtikelController();
     $histori  = $artikel->getHistoriArtikel();
-    if(isset($_GET['kategori'])){
-        $id = $_GET['kategori'];
-        $artikel = $artikel->getByCategory($id, $page_now);    
-    } else if(isset($_GET['key'])){
-        $key = $_GET['key'];
-        $artikel = $artikel->getAllNotLogin($page_now, $key);  
-    } else{
-        $artikel = $artikel->getAllNotLogin($page_now);
-    }
+
+    $galeri = $galeri->getAll();
 ?>
     <!-- Hero block -->
 
@@ -39,47 +37,49 @@
     <div id="content-wrapper" class="container">
         <div class="row">
             <!-- main -->
-
             <div class="col-lg-7 col-content">
 
                 <!-- search -->
-                <div class="col-sm-12 col-main">
+                <!-- <div class="col-sm-12 col-main">
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="key-search" placeholder="Search ..." value="<?php echo isset($key) ? $key : ''; ?>">
+                        <input type="text" class="form-control" id="key-search" placeholder="Search ..." value="<?php //echo isset($key) ? $key : ''; ?>">
                     </div>
                     <div class="col-sm-2">
                         <button class="form-control btn btn-success" id="btn-search" type="button" class="btn btn-default"><i class="fa fa-search"></i> Cari</button>
                     </div>
-                </div>
+                </div> -->
                 <!-- end search -->
+
+                <div class="col-sm-12 col-main">
+                    <h3 style="margin-top: 10px; margin-bottom: 5px;">Galeri</h3>
+                    <h3 style="margin-top: 0;margin-bottom: 5px;"><small>Kumpulan dokumentasi kegiatan</small></h3>
+                    <hr />
                 
-                <?php 
-                    if(isset($artikel) && $artikel->rowCount() > 0){ 
-                        while($row = $artikel->fetch()){
-                    ?>
-                    <div class="col-sm-12 col-main">
-
-                        <?php if($row['id_kegiatan'] == null) { ?>
-                            <img class="thumbnail" src="uploads/artikel/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
-                        <?php } else { ?>
-                            <img class="thumbnail" src="uploads/kegiatan/<?php echo $row['thumbnail'];?>" alt="Thumbnail" style="width:100%;"/>
-                        <?php } ?>
-                        
-                        <p class="text-muted">OLEH <?php echo strtoupper($row['nama_user']);?> | <?php echo date('d-m-Y', strtotime($row['created_at']));?> | <?php echo strtoupper($row['nama_kategori']);?></p>
-                        <h4 onclick="chooseArtikel('<?php echo $row['id_artikel']?>')" class="judul-artikel"><?php echo $row['judul'];?></h4>
-                        <p>
-                            <?php 
-                                $str = $row['isi'];
-                                if (strlen($row['isi']) > 150){
-                                    $str = substr($row['isi'], 0, 150) . ' ...';
-                                }
-                                echo $str;
-                            ?>
-                        </p>
-                    </div>
-                <?php } ?>
-
-                    <!-- pagination -->
+                    <?php 
+                        if(isset($galeri) && $galeri->rowCount() > 0){ 
+                            while($row = $galeri->fetch()){
+                        ?>
+                            <div class="col-md-4">
+                                <a href="index.php?page=galeri_detail&id=<?php echo $row['id_kegiatan'];?>">
+                                    <div class="thumbnail gallery-folder">
+                                        <img class="center-block" src="assets/img/gallery.png" alt="Gallery" style="width:80%">
+                                        <div class="caption text-center">
+                                            <?php echo $row['nama_kegiatan'];?><br/>
+                                            <?php echo date('d-m-Y',strtotime($row['event_date']));?>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                    <?php   } 
+                        } else { ?>
+                        <p class="text-center"><i>Data tidak ditemukan</i></p>
+                    <?php } ?>
+                </div>
+                
+                <!-- pagination -->
+                <?php /* 
+                <?php if(isset($galeri) && $galeri->rowCount() > 0) { ?>
+                    
                     <ul class="pagination">
                         <?php
                             $page = 1;
@@ -102,12 +102,8 @@
                             }
                         ?>
                     </ul>
-
-                <?php } else { ?>
-                    <div class="col-sm-12 col-main">
-                        <p class="text-center"><i>Data tidak ditemukan</i></p>
-                    </div>
-                <?php } ?>
+                <?php } ?> */ ?>
+                
             </div>
             <!-- end main -->
 
@@ -153,16 +149,16 @@
     </div>
     <script>
         $(function(){
-            $("#menu-home").addClass('active');
+            $("#menu-galeri").addClass('active');
 
             $("#btn-search").click(function(){
                 var key = $("#key-search").val();
-                window.location = 'index.php?key='+key;
+                window.location = 'index.php?page=kegiatan&key='+key;
             });
         });
 
         function chooseArtikel(id){
-            window.location.href = 'index.php?page=artikel&id='+id;
+            window.location.href = 'index.php?page=detail_kegiatan&id='+id;
         }
     </script>
 

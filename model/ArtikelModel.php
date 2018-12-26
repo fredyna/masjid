@@ -30,13 +30,27 @@
             $conn = null;
         }
 
-        public function getDataNotLogin(){
+        public function getDataNotLogin($offset=0, $key=''){
             try {
                 $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
-                ".$this->table4.".id_user=".$this->table.".id_user ORDER BY ".$this->table.".updated_at DESC";
+                $query = '';
+
+                if($key==''){
+
+                    $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
+                    ".$this->table4.".id_user=".$this->table.".id_user ORDER BY ".$this->table.".updated_at DESC
+                    LIMIT 5 OFFSET ".$offset;
+
+                } else{
+
+                    $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
+                    ".$this->table4.".id_user=".$this->table.".id_user WHERE ".$this->table.".judul LIKE '%$key%' OR ".$this->table.".isi LIKE '%$key%' ORDER BY ".$this->table.".updated_at DESC
+                    LIMIT 5 OFFSET ".$offset;
+
+                }
+                
 
                 $stmt = $conn->prepare($query); 
                 $stmt->execute();
@@ -196,7 +210,7 @@
                 $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $query = "SELECT ".$this->table3.".*, ".$this->table.".judul, ".$this->table.".id_kegiatan, ".$this->table.".thumbnail, count(".$this->table3.".id_artikel) AS jumlah  FROM ".$this->table3." JOIN ".$this->table." ON ".$this->table.".id_artikel=".$this->table3.".id_artikel GROUP BY ".$this->table3.".id_artikel ORDER BY jumlah DESC";
+                $query = "SELECT ".$this->table3.".*, ".$this->table.".judul, ".$this->table.".id_kegiatan, ".$this->table.".thumbnail, count(".$this->table3.".id_artikel) AS jumlah  FROM ".$this->table3." JOIN ".$this->table." ON ".$this->table.".id_artikel=".$this->table3.".id_artikel GROUP BY ".$this->table3.".id_artikel ORDER BY jumlah DESC LIMIT 5";
 
                 $stmt = $conn->prepare($query); 
                 $stmt->execute();
@@ -206,6 +220,28 @@
                 // echo "Error: " . $e->getMessage();
             }
             $conn = null;
+        }
+
+        public function getTotal(){
+            try {
+                $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $query = "SELECT COUNT(*) AS jumlah FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
+                ".$this->table4.".id_user=".$this->table.".id_user ORDER BY ".$this->table.".updated_at DESC";
+
+                $stmt = $conn->prepare($query); 
+                $stmt->execute();
+                return $stmt;
+            }
+            catch(PDOException $e) {
+                // echo "Error: " . $e->getMessage();
+            }
+            $conn = null;
+        }
+
+        public function getTotalByCategory($id){
+            
         }
     }
 
