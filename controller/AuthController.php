@@ -2,6 +2,7 @@
     $path = dirname(__DIR__);
     require_once($path.'/model/AuthModel.php');
     require_once($path.'/model/UsersModel.php');
+    require_once('LogsController.php');
 
     class AuthController{
 
@@ -15,8 +16,12 @@
             }
             $count  = $result->rowCount();
             if($count > 0){
+                
                 session_start();
                 $_SESSION['user_login'] = $id_user;
+
+                $log = new LogsController();
+                $log->addData("Login ke dalam sistem.");
 
                 header('Location: admin/index.php' );
                 die();
@@ -51,8 +56,12 @@
         function logout(){
             session_start();
             if(isset($_SESSION['user_login'])){
+                $log = new LogsController();
+                $log->addData("Logout dari sistem.");
+
                 session_unset();
                 session_destroy();
+
                 header('Location: login.php');
                 die();
             } else{

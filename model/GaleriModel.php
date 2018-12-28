@@ -7,13 +7,14 @@ class GaleriModel extends Koneksi{
     private $table2 = 'kegiatan';
 
     public function getData(){
+        $id_user = $_SESSION['user_login'];
+
         try {
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = 'SELECT * FROM '.$this->table2.' JOIN '.$this->table.' ON '
-            .$this->table.'.id_kegiatan='.$this->table2.'.id_kegiatan GROUP BY '.$this->table2.
-            '.id_kegiatan ORDER BY '.$this->table2.'.event_date DESC';
+            $query = "SELECT * FROM ".$this->table2." JOIN ".$this->table." ON 
+            ".$this->table.".id_kegiatan=".$this->table2.".id_kegiatan WHERE ".$this->table.".id_user='$id_user' AND ".$this->table.".status=1 GROUP BY ".$this->table2.".id_kegiatan ORDER BY ".$this->table2.".event_date DESC";
             $stmt = $conn->prepare($query); 
             $stmt->execute();
             return $stmt;
@@ -43,12 +44,14 @@ class GaleriModel extends Koneksi{
     }
 
     public function getDataByKegiatan($id){
+        $id_user = $_SESSION['user_login'];
+
         try {
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $query = "SELECT * FROM ".$this->table2." JOIN ".$this->table." ON "
-            .$this->table.".id_kegiatan=".$this->table2.".id_kegiatan WHERE ".$this->table.".id_kegiatan='$id' ORDER BY ".$this->table2.".event_date DESC";
+            .$this->table.".id_kegiatan=".$this->table2.".id_kegiatan WHERE ".$this->table.".id_kegiatan='$id' AND ".$this->table.".status=1 AND ".$this->table.".id_user='$id_user' ORDER BY ".$this->table2.".event_date DESC";
 
             $stmt = $conn->prepare($query);
             $stmt->execute();
@@ -63,6 +66,7 @@ class GaleriModel extends Koneksi{
 
     public function addData($data){
         $id_kegiatan    = $data['id_kegiatan'];
+        $id_user        = $_SESSION['user_login'];
         $judul          = $data['judul'];
         $keterangan     = $data['keterangan'];
         $foto           = $_FILES["foto"];
@@ -80,8 +84,8 @@ class GaleriModel extends Koneksi{
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "INSERT INTO ".$this->table." (id_kegiatan, foto, judul, keterangan) 
-            VALUES('$id_kegiatan','$foto','$judul','$keterangan')";
+            $query = "INSERT INTO ".$this->table." (id_user, id_kegiatan, foto, judul, keterangan) 
+            VALUES('$id_user','$id_kegiatan','$foto','$judul','$keterangan')";
             $conn->exec($query);
             return true;
         } catch(PDOException $e){
@@ -136,9 +140,10 @@ class GaleriModel extends Koneksi{
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "DELETE FROM ".$this->table." WHERE id_galeri='$id'";
-            $conn->exec($query);
-            return true;
+            $query = "UPDATE ".$this->table." set status=0 WHERE id_galeri='$id'";
+            $stmt = $conn->prepare($query);
+            $stmt->execute();
+            return $stmt->rowCount() > 0 ? true:false;
         } catch(PDOException $e){
             // echo "Error: " . $e->getMessage();
             return false;

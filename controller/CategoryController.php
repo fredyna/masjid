@@ -1,6 +1,7 @@
 <?php
     $path = dirname(__DIR__);
     require_once($path.'/model/CategoryModel.php');
+    require_once('LogsController.php');
 
     class CategoryController{
 
@@ -28,6 +29,10 @@
                 session_start();
                 $_SESSION['save'] = 1;
 
+                $log = new LogsController();
+                $activity = "Menambahkan data kategori baru ".$data['kategori'];
+                $log->addData($activity);
+
                 header('Location: kategori.php' );
                 die();
             } else{
@@ -46,6 +51,10 @@
                 session_start();
                 $_SESSION['save'] = 1;
 
+                $log = new LogsController();
+                $activity = "Update data kategori ".$data['kategori'];
+                $log->addData($activity);
+
                 header('Location: kategori.php' );
                 die();
             } else{
@@ -63,6 +72,10 @@
             if($delete){
                 session_start();
                 $_SESSION['delete'] = 1;
+
+                $log = new LogsController();
+                $activity = "Hapus data kategori dengan id ".$id;
+                $log->addData($activity);
 
                 header('Location: kategori.php' );
                 die();

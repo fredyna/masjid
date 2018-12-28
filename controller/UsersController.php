@@ -1,6 +1,7 @@
 <?php
     $path = dirname(__DIR__);
     require_once($path.'/model/UsersModel.php');
+    require_once('LogsController.php');
 
     class UsersController{
 
@@ -28,6 +29,10 @@
                 session_start();
                 $_SESSION['save'] = 1;
 
+                $log = new LogsController();
+                $activity = "Menambahkan data user baru ".$data['username'];
+                $log->addData($activity);
+
                 header('Location: user.php' );
                 die();
             } else{
@@ -45,6 +50,10 @@
             if($update){
                 session_start();
                 $_SESSION['save'] = 1;
+
+                $log = new LogsController();
+                $activity = "Update data user ".$data['username'];
+                $log->addData($activity);
 
                 if($data['profil'] == 'profil'){
                     header('Location: profil_user.php' );
@@ -71,6 +80,11 @@
             if($update){
                 session_start();
                 $_SESSION['update'] = 1;
+
+                $log = new LogsController();
+                $activity = "Update password user dengan id ".$id;
+                $log->addData($activity);
+
                 if($data['profil'] == 'profil'){
                     header('Location: profil_user.php' );
                     die();
@@ -99,6 +113,10 @@
             if($delete){
                 session_start();
                 $_SESSION['delete'] = 1;
+
+                $log = new LogsController();
+                $activity = "Hapus user dengan id ".$id;
+                $log->addData($activity);
 
                 header('Location: user.php' );
                 die();

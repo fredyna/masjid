@@ -1,6 +1,7 @@
 <?php
     $path = dirname(__DIR__);
     require_once($path.'/model/GaleriModel.php');
+    require_once('LogsController.php');
 
     class GaleriController{
 
@@ -40,6 +41,10 @@
                 session_start();
                 $_SESSION['save'] = 1;
 
+                $log = new LogsController();
+                $activity = "Menambahkan galeri ".$data['judul'];
+                $log->addData($activity);
+
                 header('Location: galeri.php' );
                 die();
             } else{
@@ -57,6 +62,10 @@
             if($update){
                 session_start();
                 $_SESSION['save'] = 1;
+
+                $log = new LogsController();
+                $activity = "Update galeri ".$data['judul'];
+                $log->addData($activity);
 
                 if($data['profil'] == 'profil'){
                     header('Location: profil_user.php' );
@@ -83,6 +92,10 @@
             if($delete){
                 session_start();
                 $_SESSION['delete'] = 1;
+
+                $log = new LogsController();
+                $activity = "Hapus galeri dengan id ".$id;
+                $log->addData($activity);
 
                 header('Location: galeri_detail.php?id='.$id_kegiatan );
                 die();

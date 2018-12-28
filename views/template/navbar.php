@@ -30,8 +30,13 @@
         <a href="kegiatan.php"><i class="px-nav-icon ion-android-calendar"></i><span class="px-nav-label"> KELOLA KEGIATAN</span></a>
       </li>
       <li class="px-nav-item" id="menu-galeri">
-          <a href="galeri.php"><i class="px-nav-icon ion-ios-photos"></i><span class="px-nav-label"> KELOLA GALERI</span></a>
+        <a href="galeri.php"><i class="px-nav-icon ion-ios-photos"></i><span class="px-nav-label"> KELOLA GALERI</span></a>
+      </li>
+      <?php if($user_login['role'] == 1){ ?>
+        <li class="px-nav-item" id="menu-log">
+          <a href="log.php"><i class="px-nav-icon ion-ios-paper"></i><span class="px-nav-label">LOG SISTEM</span></a>
         </li>
+      <?php } ?>
       <li class="px-nav-item px-nav-dropdown" id="menu-setting">
         <a href="javascript:void(0)"><i class="px-nav-icon ion-gear-b"></i><span class="px-nav-label"> SETTING</a>
 

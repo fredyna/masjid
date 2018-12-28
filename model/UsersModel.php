@@ -10,7 +10,7 @@ class UsersModel extends Koneksi{
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = 'SELECT * FROM '.$this->table;
+            $query = "SELECT * FROM ".$this->table." WHERE status=1";
             $stmt = $conn->prepare($query); 
             $stmt->execute();
             return $stmt;
@@ -106,9 +106,10 @@ class UsersModel extends Koneksi{
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "DELETE FROM ".$this->table." WHERE id_user='$id'";
-            $conn->exec($query);
-            return true;
+            $query = "UPDATE ".$this->table." set status=0 WHERE id_user='$id'";
+            $stmt = $conn->prepare($query);
+            $stmt->execute();
+            return $stmt->rowCount() > 0 ? true:false;
         } catch(PDOException $e){
             // echo "Error: " . $e->getMessage();
             return false;

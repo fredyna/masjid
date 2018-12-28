@@ -17,8 +17,8 @@
                 $id_user = $_SESSION['user_login'];
 
                 $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
-                ".$this->table4.".id_user=".$this->table.".id_user WHERE ".$this->table.".id_user='$id_user' ORDER BY
-                ".$this->table.".updated_at DESC";
+                ".$this->table4.".id_user=".$this->table.".id_user WHERE ".$this->table.".id_user='$id_user' AND 
+                ".$this->table.".status=1 ORDER BY ".$this->table.".updated_at DESC";
 
                 $stmt = $conn->prepare($query); 
                 $stmt->execute();
@@ -40,13 +40,15 @@
                 if($key==''){
 
                     $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
-                    ".$this->table4.".id_user=".$this->table.".id_user ORDER BY ".$this->table.".updated_at DESC
+                    ".$this->table4.".id_user=".$this->table.".id_user WHERE 
+                    ".$this->table.".status=1 ORDER BY ".$this->table.".updated_at DESC
                     LIMIT 5 OFFSET ".$offset;
 
                 } else{
 
                     $query = "SELECT ".$this->table.".*, ".$this->table2.".kategori AS nama_kategori, ".$this->table4.".nama AS nama_user FROM ".$this->table." LEFT JOIN ".$this->table2." ON ".$this->table2.".id_kategori=".$this->table.".id_kategori JOIN ".$this->table4." ON
-                    ".$this->table4.".id_user=".$this->table.".id_user WHERE ".$this->table.".judul LIKE '%$key%' OR ".$this->table.".isi LIKE '%$key%' ORDER BY ".$this->table.".updated_at DESC
+                    ".$this->table4.".id_user=".$this->table.".id_user WHERE (".$this->table.".judul LIKE '%$key%' OR ".$this->table.".isi LIKE '%$key%') AND
+                    ".$this->table.".status=1 ORDER BY ".$this->table.".updated_at DESC
                     LIMIT 5 OFFSET ".$offset;
 
                 }
@@ -178,9 +180,10 @@
                 $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $query = "DELETE FROM ".$this->table." WHERE id_artikel='$id'";
-                $conn->exec($query);
-                return true;
+                $query = "UPDATE ".$this->table." set status='0' WHERE id_artikel='$id'";
+                $stmt = $conn->prepare($query);
+                $stmt->execute();
+                return $stmt->rowCount() > 0 ? true:false;
             } catch(PDOException $e){
                 // echo "Error: " . $e->getMessage();
                 return false;

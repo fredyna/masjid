@@ -15,7 +15,7 @@
       $galeri = $galeri->getAll();
 
       $kegiatan = new KegiatanController();
-      $kegiatan = $kegiatan->getAll();
+      $kegiatan = $kegiatan->getAllNotLogin(1);
     }
     require_once('../template/header.php');
     require_once('../template/navbar.php');

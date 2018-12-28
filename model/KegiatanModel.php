@@ -15,7 +15,7 @@
 
                 $id_user = $_SESSION['user_login'];
 
-                $query = "SELECT ".$this->table.".*, ".$this->table2.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user WHERE ".$this->table.".id_user='$id_user' ORDER BY ".$this->table.".updated_at DESC";
+                $query = "SELECT ".$this->table.".*, ".$this->table2.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user WHERE ".$this->table.".id_user='$id_user' AND ".$this->table.".status=1 ORDER BY ".$this->table.".updated_at DESC";
 
                 $stmt = $conn->prepare($query); 
                 $stmt->execute();
@@ -33,9 +33,11 @@
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 if($key==''){
-                    $query = "SELECT ".$this->table.".*, ".$this->table2.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user ORDER BY ".$this->table.".updated_at DESC LIMIT 5 OFFSET ".$offset;
+                    $query = "SELECT ".$this->table.".*, ".$this->table2.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user AND 
+                    ".$this->table.".status=1 ORDER BY ".$this->table.".updated_at DESC LIMIT 5 OFFSET ".$offset;
                 } else{
-                    $query = "SELECT ".$this->table.".*, ".$this->table2.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user WHERE ".$this->table.".nama_kegiatan LIKE '%$key%' OR ".$this->table.".deskripsi LIKE '%$key%' ORDER BY ".$this->table.".updated_at DESC LIMIT 5 OFFSET ".$offset;
+                    $query = "SELECT ".$this->table.".*, ".$this->table2.".nama AS nama_user FROM ".$this->table." JOIN ".$this->table2." ON ".$this->table2.".id_user=".$this->table.".id_user WHERE (".$this->table.".nama_kegiatan LIKE '%$key%' OR ".$this->table.".deskripsi LIKE '%$key%') AND 
+                    ".$this->table.".status=1 ORDER BY ".$this->table.".updated_at DESC LIMIT 5 OFFSET ".$offset;
                 }
 
                 $stmt = $conn->prepare($query); 
@@ -135,7 +137,7 @@
                     $query = "UPDATE ".$this->table." set nama_kegiatan='$nama_kegiatan', event_date='$event_date', deskripsi='$deskripsi'
                     WHERE id_kegiatan='$id'";
 
-                    $query2 = "UPDATE ".$this->table." set judul='$nama_kegiatan', isi='$deskripsi'
+                    $query2 = "UPDATE ".$this->table3." set judul='$nama_kegiatan', isi='$deskripsi'
                     WHERE id_kegiatan='$id'";
                 }
                 
@@ -160,15 +162,19 @@
                 $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                //delete kegiatan
-                $query = "DELETE FROM ".$this->table." WHERE id_kegiatan='$id'";
-                $conn->exec($query);
+                $query = "UPDATE ".$this->table." set status=0 WHERE id_kegiatan='$id'";
 
-                //delete artikel
-                $query2 = "DELETE FROM ".$this->table3." WHERE id_kegiatan='$id'";
-                $conn->exec($query2);
+                $query2 = "UPDATE ".$this->table3." set status=0 WHERE id_kegiatan='$id'";
 
-                return true;
+                //soft delete kegiatan
+                $stmt = $conn->prepare($query);
+                $stmt->execute();
+
+                //soft delete artikel
+                $stmt2 = $conn->prepare($query2);
+                $stmt2->execute();
+
+                return $stmt->rowCount() > 0 ? true:false;
             } catch(PDOException $e){
                 // echo "Error: " . $e->getMessage();
                 return false;

@@ -2,6 +2,7 @@
 
     $path = dirname(__DIR__);
     require_once($path.'/model/ArtikelModel.php');
+    require_once('LogsController.php');
 
     class ArtikelController{
 
@@ -49,6 +50,10 @@
                 session_start();
                 $_SESSION['save'] = 1;
 
+                $log = new LogsController();
+                $activity = "Menambahkan artikel baru ".$data['judul'];
+                $log->addData($activity);
+
                 header('Location: artikel.php' );
                 die();
             } else{
@@ -67,6 +72,10 @@
                 session_start();
                 $_SESSION['save'] = 1;
 
+                $log = new LogsController();
+                $activity = "Update artikel ".$data['judul'];
+                $log->addData($activity);
+
                 header('Location: artikel.php' );
                 die();
             } else{
@@ -84,6 +93,10 @@
             if($delete){
                 session_start();
                 $_SESSION['delete'] = 1;
+
+                $log = new LogsController();
+                $activity = "Hapus artikel dengan id ".$id;
+                $log->addData($activity);
 
                 header('Location: artikel.php' );
                 die();

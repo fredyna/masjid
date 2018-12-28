@@ -3,6 +3,7 @@
     $path = dirname(__DIR__);
     require_once($path.'/model/KegiatanModel.php');
     require_once($path.'/model/ArtikelModel.php');
+    require_once('LogsController.php');
 
     class KegiatanController{
 
@@ -50,6 +51,10 @@
                 session_start();
                 $_SESSION['save'] = 1;
 
+                $log = new LogsController();
+                $activity = "Menambahkan kegiatan baru ".$data['nama_kegiatan'];
+                $log->addData($activity);
+
                 header('Location: kegiatan.php' );
                 die();
             } else{
@@ -79,6 +84,10 @@
                 session_start();
                 $_SESSION['save'] = 1;
 
+                $log = new LogsController();
+                $activity = "Update kegiatan ".$data['nama_kegiatan'];
+                $log->addData($activity);
+
                 header('Location: kegiatan.php' );
                 die();
             } else{
@@ -96,6 +105,10 @@
             if($delete){
                 session_start();
                 $_SESSION['delete'] = 1;
+
+                $log = new LogsController();
+                $activity = "Hapus kegiatan dengan id ".$id;
+                $log->addData($activity);
 
                 header('Location: kegiatan.php' );
                 die();
