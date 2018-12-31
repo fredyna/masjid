@@ -18,6 +18,8 @@
     require_once('../template/navbar.php');
     require_once('../../controller/KomentarController.php');
     $komentar = new KomentarController();
+    $jumlah_komen = $komentar->getTotal();
+    $selisih = $jumlah_komen - ($page * 5);
     $komentar    = $komentar->getLast($page);
 ?>
 
@@ -60,9 +62,21 @@
                             </div>
                         </div>
                     </div>
-            <?php }
+            <?php } 
                 echo '</div>';
-                } ?>
+                
+                if($selisih > 0){
+                    echo '<div class="pull-right"><a href="komentar.php?comment='.($page+1).'" class="btn btn-primary btn-xs">Selanjutnya <i class="fa fa-arrow-right"></i></a></div>';
+                } else{
+                    echo '<div class="pull-right"><a href="javascript:void(0)" class="btn btn-primary btn-xs disabled">Selanjutnya <i class="fa fa-arrow-right"></i></a></div>';
+                }
+
+                if($page > 1){
+                    echo '<div class="pull-left"><a href="komentar.php?comment='.($page-1).'" class="btn btn-primary btn-xs"><i class="fa fa-arrow-left"></i> Sebelumnya</a></div>';
+                } else{
+                    echo '<div class="pull-left"><a href="javascript:void(0)" class="btn btn-primary btn-xs disabled"><i class="fa fa-arrow-right"></i> Sebelumnya</a></div>';
+                }
+            } ?>
 
           </div>
         </div>

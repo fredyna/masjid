@@ -80,17 +80,23 @@ class KomentarModel extends Koneksi{
         $conn = null;
     }
 
-    public function getTotal($id_artikel){
+    public function getTotal($id_artikel=0){
         try {
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $id_user = $_SESSION['user_login'];
+            if(isset($_SESSION['user_login'])){
 
-            if(isset($id_user)){
+                $id_user = $_SESSION['user_login'];
                 
-                $query = "SELECT COUNT(*) AS jumlah FROM ".$this->table." JOIN ".$this->table2." ON 
-                ".$this->table2.".id_artikel=".$this->table.".id_artikel WHERE ".$this->table.".status=1 AND ".$this->table2.".id_user='$id_user' AND ".$this->table2.".id_artikel='$id_artikel' ORDER BY ".$this->table.".created_at DESC";
+                if($id_artikel == 0){
+                    $query = "SELECT COUNT(*) AS jumlah FROM ".$this->table." JOIN ".$this->table2." ON 
+                    ".$this->table2.".id_artikel=".$this->table.".id_artikel WHERE ".$this->table.".status=1 AND ".$this->table2.".id_user='$id_user' ORDER BY ".$this->table.".created_at DESC";
+                } else{
+                    $query = "SELECT COUNT(*) AS jumlah FROM ".$this->table." JOIN ".$this->table2." ON 
+                    ".$this->table2.".id_artikel=".$this->table.".id_artikel WHERE ".$this->table.".status=1 AND ".$this->table2.".id_user='$id_user' AND ".$this->table2.".id_artikel='$id_artikel' ORDER BY ".$this->table.".created_at DESC";
+                }
+                
             } else{
                 $query = "SELECT COUNT(*) as jumlah FROM ".$this->table." JOIN ".$this->table2." ON 
                 ".$this->table2.".id_artikel=".$this->table.".id_artikel WHERE ".$this->table.".status=1 AND ".$this->table.".id_artikel='$id_artikel' ORDER BY ".$this->table.".created_at DESC";

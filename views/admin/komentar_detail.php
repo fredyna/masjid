@@ -82,6 +82,28 @@
                     }
                 ?>
 
+                <?php 
+                    if(isset($_SESSION['delete'])){
+                        if($_SESSION['delete'] == 1){
+                ?>
+                    <div class="col-sm-12">
+                        <div class="alert alert-success">
+                            Komentar berhasil dihapus!
+                        </div>
+                    </div>
+                    <br><br>
+                <?php } else{ ?>
+                    <div class="col-sm-12">
+                        <div class="alert alert-danger">
+                            Komentar gagal dihapus!
+                        </div>
+                    </div>
+                    <br><br>    
+                <?php   }
+                        unset($_SESSION['delete']);
+                    }
+                ?>
+
                 <?php if(isset($_SESSION['form']) && $_SESSION['form'] == 1){ ?>
                     <div class="col-sm-12">
                         <div class="alert alert-warning">
@@ -138,7 +160,7 @@
                         <div class="panel">
                             <div class="panel-body">
                                 <i class="fa fa-comments-o"></i><a href="javascript:void(0)" data-toggle="tooltip" title="<?php echo $komen['email_pengirim'];?>">&nbsp;&nbsp; <?php echo $komen['nama_pengirim'] != '' ? $komen['nama_pengirim']:'Admin'; ?></a> mengomentari pada <a href="#"><?php echo $komen['judul'];?></a>
-                                <button class="btn btn-info btn-xs pull-right">Lihat</button>
+                                <button href="javascript:void(0)" class="btn btn-danger btn-xs pull-right" onclick="deleteData('<?php echo $komen['id_komentar'];?>','<?php echo $komen['id_artikel'];?>')"><i class="fa fa-trash"></i> Hapus</button>
                             </div>
                             <hr class="m-a-0">
                             <div class="widget-comments-item bg-white darken">
@@ -181,10 +203,10 @@
         $('#table-artikel_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
     });
 
-    function deleteData(id){
+    function deleteData(id, id_artikel){
         var y = confirm('Are you sure?');
         if(y == true){
-            window.location.href = "log_hapus.php?id_log="+id;
+            window.location.href = "komentar_hapus.php?id_artikel="+id_artikel+"&id_komentar="+id;
         }
     }
 </script>

@@ -56,7 +56,7 @@
             }
         }
 
-        public function getTotal($id){
+        public function getTotal($id=0){
             $komentar = new KomentarModel();
             $jumlah = 0;
             $result = $komentar->getTotal($id);
