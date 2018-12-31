@@ -7,14 +7,21 @@ class GaleriModel extends Koneksi{
     private $table2 = 'kegiatan';
 
     public function getData(){
-        $id_user = $_SESSION['user_login'];
 
         try {
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM ".$this->table2." JOIN ".$this->table." ON 
-            ".$this->table.".id_kegiatan=".$this->table2.".id_kegiatan WHERE ".$this->table.".id_user='$id_user' AND ".$this->table.".status=1 GROUP BY ".$this->table2.".id_kegiatan ORDER BY ".$this->table2.".event_date DESC";
+            if(isset($_SESSION['user_login'])){
+                $id_user = $_SESSION['user_login'];
+
+                $query = "SELECT * FROM ".$this->table2." JOIN ".$this->table." ON 
+                ".$this->table.".id_kegiatan=".$this->table2.".id_kegiatan WHERE ".$this->table.".id_user='$id_user' AND ".$this->table.".status=1 GROUP BY ".$this->table2.".id_kegiatan ORDER BY ".$this->table2.".event_date DESC";
+            } else{
+                $query = "SELECT * FROM ".$this->table2." JOIN ".$this->table." ON 
+                ".$this->table.".id_kegiatan=".$this->table2.".id_kegiatan WHERE ".$this->table.".status=1 GROUP BY ".$this->table2.".id_kegiatan ORDER BY ".$this->table2.".event_date DESC";
+            }
+            
             $stmt = $conn->prepare($query); 
             $stmt->execute();
             return $stmt;
@@ -44,14 +51,22 @@ class GaleriModel extends Koneksi{
     }
 
     public function getDataByKegiatan($id){
-        $id_user = $_SESSION['user_login'];
 
         try {
             $conn = new PDO("mysql:host=$this->server;dbname=$this->db", $this->username, $this->password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $query = "SELECT * FROM ".$this->table2." JOIN ".$this->table." ON "
-            .$this->table.".id_kegiatan=".$this->table2.".id_kegiatan WHERE ".$this->table.".id_kegiatan='$id' AND ".$this->table.".status=1 AND ".$this->table.".id_user='$id_user' ORDER BY ".$this->table2.".event_date DESC";
+            if(isset($_SESSION['user_login'])){
+                $id_user = $_SESSION['user_login'];
+
+                $query = "SELECT * FROM ".$this->table2." JOIN ".$this->table." ON "
+                .$this->table.".id_kegiatan=".$this->table2.".id_kegiatan WHERE ".$this->table.".id_kegiatan='$id' AND ".$this->table.".status=1 AND ".$this->table.".id_user='$id_user' ORDER BY ".$this->table2.".event_date DESC";
+            } else{
+                $query = "SELECT * FROM ".$this->table2." JOIN ".$this->table." ON "
+                .$this->table.".id_kegiatan=".$this->table2.".id_kegiatan WHERE ".$this->table.".id_kegiatan='$id' AND ".$this->table.".status=1 AND ORDER BY ".$this->table2.".event_date DESC";
+            }
+
+            
 
             $stmt = $conn->prepare($query);
             $stmt->execute();
